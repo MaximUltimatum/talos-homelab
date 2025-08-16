@@ -13,3 +13,7 @@ spec:
         kind: GitRepository
         name: flux-system
         namespace: flux-system
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
