@@ -7,7 +7,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: ./ulthuan/operators/tailscale
+      chart: ./charts/tailscale-operator
       version: "0.3.0"
       sourceRef:
         kind: GitRepository
