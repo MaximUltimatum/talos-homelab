@@ -3,7 +3,7 @@ kind: Namespace
 metadata:
   name: tailscale
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: tailscale-helm-repo
@@ -12,7 +12,7 @@ spec:
   interval: 10m # How often to check for updates
   url: https://pkgs.tailscale.com/helmcharts
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: tailscale-operator
