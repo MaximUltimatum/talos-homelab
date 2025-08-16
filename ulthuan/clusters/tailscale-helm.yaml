@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: tailscale-operator
+  namespace: flux-system  # or whatever namespace you prefer
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ./operators/tailscale-operator
+      version: '*'
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
