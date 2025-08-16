@@ -22,7 +22,7 @@ spec:
   chart:
     spec:
       valuesFiles:
-        - ./charts/tailscale-operator/values.yaml
+        - values.yaml
       chart: tailscale-operator
       version: "1.82.0"
       sourceRef:
