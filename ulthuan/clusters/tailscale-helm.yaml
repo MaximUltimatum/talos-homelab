@@ -21,13 +21,11 @@ spec:
   interval: 1m
   chart:
     spec:
-      chart: ./charts/tailscale-operator
-      version: "0.3.0"
+      valuesFiles:
+        - ./charts/tailscale-operator/values.yaml
+      chart: tailscale-operator
+      version: "1.82.0"
       sourceRef:
         kind: HelmRepository
         name: tailscale-helm-repo
   targetNamespace: tailscale
-  install:
-    crds: CreateReplace
-  upgrade:
-    crds: CreateReplace
