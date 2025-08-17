@@ -1,0 +1,26 @@
+name: Create PR for Flux Updates
+on:
+  push:
+    branches:
+      - 'flux-renovate-*'
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref_name }}
+          base: master
+          title: "🤖 Automated Image Updates"
+          body: |
+            Automated image updates by Flux.
+            
+            Please review the changes and merge if appropriate.
+          labels: |
+            automated
+            flux
+            image-update
