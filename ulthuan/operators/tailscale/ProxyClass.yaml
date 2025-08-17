@@ -5,6 +5,15 @@ metadata:
 spec:
   statefulSet:
     pod:
-       tailscaleContainer:
-         securityContext:
-           privileged: true
+      tailscaleContainer:
+        resources:
+          limits:
+            squat.ai/tun: "1"
+        securityContext:
+          privileged: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+            add:
+              - NET_ADMIN
