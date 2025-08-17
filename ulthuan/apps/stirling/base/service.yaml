@@ -5,7 +5,7 @@ metadata:
   labels:
     tailscale.com/proxy-class: "irish-eyes"
   annotations:
-    tailscale.com/hostname: stirling
+    tailscale.com/hostname: pdfs
 spec:
   type: LoadBalancer
   loadBalancerClass: tailscale
