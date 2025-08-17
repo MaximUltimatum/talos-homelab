@@ -64,4 +64,3 @@ jobs:
           Please review the changes and merge if appropriate." \
             --base master \
             --head "$NEW_BRANCH" \
-            --label "automated,flux,image-update"
