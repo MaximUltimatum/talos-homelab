@@ -1,26 +1,67 @@
 name: Create PR for Flux Updates
+
 on:
   push:
     branches:
-      - 'flux-renovate-*'
+      - 'flux-renovate'
 
 jobs:
   create-pr:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref_name }}
-          base: master
-          title: "🤖 Automated Image Updates"
-          body: |
-            Automated image updates by Flux.
-            
-            Please review the changes and merge if appropriate.
-          labels: |
-            automated
-            flux
-            image-update
+          fetch-depth: 0  # Fetch full history so we can work with commits
+          
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+      - name: Create unique branch and PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get the current commit hash from flux-renovate
+          FLUX_COMMIT=$(git rev-parse HEAD)
+          
+          # Generate a unique branch name using timestamp and short commit hash
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+          SHORT_COMMIT=$(echo $FLUX_COMMIT | cut -c1-7)
+          NEW_BRANCH="flux-update-${TIMESTAMP}-${SHORT_COMMIT}"
+          
+          echo "Creating branch: $NEW_BRANCH"
+          echo "From commit: $FLUX_COMMIT"
+          
+          # Checkout master and create new branch
+          git checkout master
+          git checkout -b "$NEW_BRANCH"
+          
+          # Cherry-pick the flux-renovate commit onto the new branch
+          git cherry-pick "$FLUX_COMMIT"
+          
+          # Push the new branch
+          git push origin "$NEW_BRANCH"
+          
+          # Get commit message for PR title and body
+          COMMIT_MESSAGE=$(git log -1 --pretty=format:"%s" "$FLUX_COMMIT")
+          COMMIT_BODY=$(git log -1 --pretty=format:"%b" "$FLUX_COMMIT")
+          
+          # Create the PR using GitHub CLI
+          gh pr create \
+            --title "🤖 Flux Image Update: $COMMIT_MESSAGE" \
+            --body "Automated image updates by Flux.
+
+          **Commit Details:**
+          - Branch: $NEW_BRANCH  
+          - Commit: $SHORT_COMMIT
+          - Original commit from flux-renovate: $FLUX_COMMIT
+          
+          **Changes:**
+          $COMMIT_BODY
+          
+          Please review the changes and merge if appropriate." \
+            --base master \
+            --head "$NEW_BRANCH" \
+            --label "automated,flux,image-update"
