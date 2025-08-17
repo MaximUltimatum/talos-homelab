@@ -24,7 +24,7 @@ spec:
   chart:
     spec:
       chart: tailscale-operator
-      version: "1.82.0" # {"$imagepolicy": "flux-system:tailscale"}
+      version: "ghcr.io/tailscale/k8s-operator:v1.86.2" # {"$imagepolicy": "flux-system:tailscale"}
       sourceRef:
         kind: HelmRepository
         name: tailscale-helm-repo
@@ -37,7 +37,7 @@ spec:
     # values will be created in the operator namespace. If unset a Secret named
     # operator-oauth must be precreated.
     oauth: {}
-      # clientId: ""
+    # clientId: ""
     # clientSecret: ""
 
     # enableConnector determines whether the operator should reconcile
@@ -45,7 +45,6 @@ spec:
     # connector CRD in a separate step.
     # You can do so by running 'kubectl apply -f ./cmd/k8s-operator/deploy/crds'.
     enableConnector: "false"
-
     operatorConfig:
       image:
         repo: ghcr.io/tailscale/k8s-operator
@@ -58,19 +57,12 @@ spec:
       hostname: "tailscale-operator"
       nodeSelector:
         kubernetes.io/os: linux
-
       resources: {}
-
       podAnnotations: {}
-
       tolerations: []
-
       affinity: {}
-
       podSecurityContext: {}
-
       securityContext: {}
-
     # proxyConfig contains configuraton that will be applied to any ingress/egress
     # proxies created by the operator.
     # https://tailscale.com/kb/1236/kubernetes-operator/#cluster-ingress
@@ -89,11 +81,9 @@ spec:
       # Note that if you pass multiple tags to this field via `--set` flag to helm upgrade/install commands you must escape the comma (for example, "tag:k8s-proxies\,tag:prod"). See https://github.com/helm/helm/issues/1556
       defaultTags: "tag:k8s"
       firewallMode: auto
-
     # apiServerProxyConfig allows to configure whether the operator should expose
     # Kubernetes API server.
     # https://tailscale.com/kb/1236/kubernetes-operator/#accessing-the-kubernetes-control-plane-using-an-api-server-proxy
     apiServerProxyConfig:
       mode: "true" # "true", "false", "noauth"
-
     imagePullSecrets: []
