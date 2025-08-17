@@ -5,7 +5,7 @@ metadata:
   name: stirling
   namespace: flux-system
 spec:
-  image: docker.stirlingpdf.com/stirlingtools/stirling-pdf
+  image: ghcr.io/stirling-tools/stirling-pdf
   interval: 5m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
