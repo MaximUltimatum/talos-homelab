@@ -10,24 +10,10 @@ spec:
           limits:
             squat.ai/tun: "1"
         securityContext:
+          privileged: true
           allowPrivilegeEscalation: false
-          runAsNonRoot: true
-          runAsUser: 1000
           capabilities:
             drop:
               - ALL
             add:
               - NET_ADMIN
-          seccompProfile:
-            type: RuntimeDefault
-      sysctlerContainer:
-        securityContext:
-          privileged: false
-          allowPrivilegeEscalation: false
-          runAsNonRoot: true
-          runAsUser: 1000
-          capabilities:
-            drop:
-              - ALL
-          seccompProfile:
-            type: RuntimeDefault
