@@ -16,7 +16,7 @@ spec:
       messageTemplate: '{{range .Changed.Changes}}{{print .OldValue}} -> {{println
         .NewValue}}{{end}}'
     push:
-      branch: flux-renovate-{{.NewValue}}
+      branch: flux-renovate
   interval: 30m0s
   sourceRef:
     kind: GitRepository
