@@ -6,3 +6,4 @@ resources:
 - SealedTailscaleSecret.yaml
 - ProxyClass.yaml
 - dnsconfig.yaml
+- device-plugin-daemonset.yaml
