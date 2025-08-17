@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: stirling
-          image: frooodle/s-pdf:latest
+          image: frooodle/s-pdf:latest # {"$imagepolicy": "flux-system:stirling"}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
