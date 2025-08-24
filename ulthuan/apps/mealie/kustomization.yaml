@@ -4,6 +4,8 @@ kind: Kustomization
 resources:
   - base/deployment.yaml
   - base/loadbalancer.yaml
-  - ../shared/sealed-smtp-secrets.yaml
+
+components:
+  - ../shared
 
 namespace: mealie
