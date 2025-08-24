@@ -4,6 +4,5 @@ kind: Kustomization
 resources:
   - base/deployment.yaml
   - base/loadbalancer.yaml
-  - ../shared
 
 namespace: mealie
