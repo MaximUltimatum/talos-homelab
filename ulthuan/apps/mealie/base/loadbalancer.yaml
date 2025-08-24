@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: recipes
+  namespace: mealie
+  annotations:
+    tailscale.com/hostname: recipes
+  labels:
+    tailscale.com/proxy-class: "irish-eyes"
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app: mealie

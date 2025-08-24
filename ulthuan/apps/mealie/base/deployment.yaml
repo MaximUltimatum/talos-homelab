@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cooking
+  labels:
+    app: mealie
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mealie
+  template:
+    metadata:
+      name: mealie
+      labels:
+        app: mealie
+    spec:
+      volumes:
+        - name: recipe-book
+          persistentVolumeClaim:
+            claimName: recipe-book-pvc
+      containers:
+        - name: mealie
+          image: ghcr.io/mealie-recipes/mealie:v2.7.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9000
+          volumeMounts:
+            - name: recipe-book
+              mountPath: /app/data
+          env:
+            - name: DB_ENGINE
+              value: sqlite
+            - name: BASE_URL
+              value: recipes.kingfisher-halfmoon.ts.net
+            - name: SMTP_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: smtp-secrets
+                  key: smtp-host
+            - name: SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: smtp-secrets
+                  key: smtp-username
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: smtp-secrets
+                  key: smtp-password
+            - name: SMTP_FROM_NAME
+              value: "McDermott Cookbook"
+            - name: SMTP_FROM_EMAIL
+              value: recipes@maximstroud.de
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: recipe-book-pvc
+  namespace: mealie
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
