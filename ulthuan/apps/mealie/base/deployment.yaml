@@ -21,7 +21,7 @@ spec:
             claimName: recipe-book-pvc
       containers:
         - name: mealie
-          image: ghcr.io/mealie-recipes/mealie:v2.7.1
+          image: ghcr.io/mealie-recipes/mealie:v2.7.1 # {"$imagepolicy": "flux-system:mealie"}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9000
