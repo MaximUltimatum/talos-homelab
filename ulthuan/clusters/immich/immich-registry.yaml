@@ -5,7 +5,7 @@ metadata:
   name: immich-helm
   namespace: flux-system
 spec:
-  image: immich-app.github.io/immich-charts
+  image: ghcr.io/immich-app/immich-charts/immich
   interval: 5m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
@@ -26,7 +26,7 @@ metadata:
   name: immich
   namespace: flux-system
 spec:
-  image: immich-app.github.io/immich-charts
+  image: ghcr.io/immich-app/immich-server
   interval: 5m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2

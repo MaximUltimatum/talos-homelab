@@ -10,7 +10,7 @@ metadata:
   namespace: journal
 spec:
   interval: 10m # How often to check for updates
-  url: https://immich-app.github.io/immich-charts
+  url: https://ghcr.io/immich-app/immich-charts/immich
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
