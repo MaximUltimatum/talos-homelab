@@ -1,0 +1,42 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: immich-helm
+  namespace: flux-system
+spec:
+  image: immich-app.github.io/immich-charts
+  interval: 5m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: immich-helm
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: immich-helm
+  policy:
+    semver:
+      range: '>=0.0.0 <1.0.0'
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: immich
+  namespace: flux-system
+spec:
+  image: immich-app.github.io/immich-charts
+  interval: 5m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: immich
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: immich
+  policy:
+    semver:
+      range: '>=1.0.0 <2.0.0'
