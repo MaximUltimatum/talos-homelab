@@ -22,7 +22,7 @@ spec:
   chart:
     spec:
       chart: immich
-      version: "v0.9.2" # {"$imagepolicy": "flux-system:immich-helm:tag"}
+      version: "0.9.3" # {"$imagepolicy": "flux-system:immich-helm:tag"}
       sourceRef:
         kind: HelmRepository
         name: immich-helm-repo
@@ -33,7 +33,6 @@ spec:
     ## Refer there for more detail about the supported values
 
     # These entries are shared between all the Immich components
-
     env:
       REDIS_HOSTNAME: '{{ printf "%s-redis-master" .Release.Name }}'
       #DB_HOSTNAME: "10.233.67.120"
@@ -47,10 +46,8 @@ spec:
           secretKeyRef:
             name: immich-insight-clearance
             key: postgres-password
-
     image:
       tag: v1.132.3 # {"$imagepolicy": "flux-system:immich:tag"}
-
     immich:
       persistence:
         # Main data store for all photos shared between different components.
@@ -58,22 +55,18 @@ spec:
           # Automatically creating the library volume is not supported by this chart
           # You have to specify an existing PVC to use
           existingClaim: immich-library-project-insight
-
     # Dependencies
     redis:
       enabled: true
       architecture: standalone
       auth:
         enabled: false
-
     # Immich components
-
     server:
       enabled: true
       image:
         repository: ghcr.io/immich-app/immich-server
         pullPolicy: IfNotPresent
-
       ingress:
         main:
           enabled: true
@@ -95,7 +88,6 @@ spec:
           tls:
             - hosts:
                 - project-insight
-
     machine-learning:
       enabled: true
       image:
