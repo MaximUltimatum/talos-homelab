@@ -47,7 +47,7 @@ spec:
             name: immich-insight-clearance
             key: postgres-password
     image:
-      tag: v1.139.4 # {"$imagepolicy": "flux-system:immich:tag"}
+      tag: v1.140.0 # {"$imagepolicy": "flux-system:immich:tag"}
     immich:
       persistence:
         # Main data store for all photos shared between different components.
