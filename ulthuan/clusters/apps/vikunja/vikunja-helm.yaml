@@ -65,7 +65,7 @@ spec:
             # proxy-body-size is set to 0 to remove the body limit on file uploads
             nginx.ingress.kubernetes.io/proxy-body-size: "0"
           hosts:
-            - host: pym
+            - host: tasks
               paths:
                 - path: /
           defaultBackend:
@@ -74,7 +74,7 @@ spec:
           ingressClassName: tailscale
           tls:
             - hosts:
-                - pym
+                - tasks
       configMaps:
         # The configuration for Vikunja's api
         # https://vikunja.io/docs/config-options/
