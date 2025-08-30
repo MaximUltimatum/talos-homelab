@@ -4,11 +4,12 @@ metadata:
   name: vikunja
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
-kind: OCIRepository
+kind: HelmRepository
 metadata:
   name: vikunja-helm-repo
   namespace: vikunja
 spec:
+  type: "oci"
   interval: 10m # How often to check for updates
   url: oci://ghcr.io/go-vikunja/helm-chart/vikunja
 ---
@@ -24,7 +25,7 @@ spec:
       chart: vikunja
       version: "v1.0.0" # {"$imagepolicy": "flux-system:vikunja-helm:tag"}
       sourceRef:
-        kind: OCIRepository
+        kind: HelmRepository
         name: vikunja-helm-repo
   targetNamespace: vikunja
   values:
