@@ -4,7 +4,7 @@ metadata:
   name: vikunja
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
+kind: OCIRepository
 metadata:
   name: vikunja-helm-repo
   namespace: vikunja
@@ -24,9 +24,9 @@ spec:
       chart: vikunja
       version: "v1.0.0" # {"$imagepolicy": "flux-system:vikunja-helm:tag"}
       sourceRef:
-        kind: HelmRepository
+        kind: OCIRepository
         name: vikunja-helm-repo
-  targetNamespace: journal
+  targetNamespace: vikunja
   values:
     ## This chart relies on the common library chart from bjw-s
     ## You can find it and the values you can provide and modify, at https://github.com/bjw-s/helm-charts/tree/a081de53024d8328d1ae9ff7e4f6bc500b0f3a29/charts/library/common
