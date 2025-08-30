@@ -23,7 +23,7 @@ spec:
   interval: 1m
   chart:
     spec:
-      chart: longhorn
+      chart: metallb
       version: "0.13.12"
       sourceRef:
         kind: HelmRepository
