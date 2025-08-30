@@ -12,7 +12,7 @@ spec:
   interval: 10m # How often to check for updates
   url: oci://ghcr.io/go-vikunja/helm-chart/vikunja
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: vikunja
