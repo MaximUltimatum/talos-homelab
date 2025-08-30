@@ -23,7 +23,7 @@ spec:
   chart:
     spec:
       chart: vikunja
-      version: "v1.0.0" # {"$imagepolicy": "flux-system:vikunja-helm:tag"}
+      version: "1.0.0" # {"$imagepolicy": "flux-system:vikunja-helm:tag"}
       sourceRef:
         kind: HelmRepository
         name: vikunja-helm-repo
