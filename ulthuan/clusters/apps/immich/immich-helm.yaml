@@ -23,7 +23,7 @@ spec:
   chart:
     spec:
       chart: immich
-      version: "0.9.2" # {"$imagepolicy": "flux-system:immich-helm:tag"}
+      version: "0.9.3" # {"$imagepolicy": "flux-system:immich-helm:tag"}
       sourceRef:
         kind: HelmRepository
         name: immich-helm-repo
