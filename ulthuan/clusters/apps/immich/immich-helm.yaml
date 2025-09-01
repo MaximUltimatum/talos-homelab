@@ -59,7 +59,7 @@ spec:
             # proxy-body-size is set to 0 to remove the body limit on file uploads
             nginx.ingress.kubernetes.io/proxy-body-size: "0"
           hosts:
-            - host: project-insight
+            - host: memories
               paths:
                 - path: "/"
           defaultBackend:
@@ -69,7 +69,7 @@ spec:
                 number: 2283
           tls:
             - hosts:
-                - project-insight
+                - memories
     machine-learning:
       persistence:
         cache:
