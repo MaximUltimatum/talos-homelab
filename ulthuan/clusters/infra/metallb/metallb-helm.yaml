@@ -48,7 +48,6 @@ spec:
       ##   - myRegistryKeySecretName
       ##
       imagePullSecrets: []
-
     ## @section Common parameters
 
     ## @param kubeVersion Force target Kubernetes version (using Helm capabilities if not set)
@@ -69,7 +68,6 @@ spec:
     ## @param extraDeploy Array of extra objects to deploy with the release
     ##
     extraDeploy: []
-
     ## Enable diagnostic mode in the deployment(s)/statefulset(s)
     ##
     diagnosticMode:
@@ -119,7 +117,6 @@ spec:
     ##
     prometheusRule:
       enabled: false
-
     ## @section Controller parameters
 
     ## MetalLB Controller deployment.
@@ -136,7 +133,7 @@ spec:
       image:
         registry: docker.io
         repository: bitnami/metallb-controller
-        tag: 0.13.12-debian-11-r2  # {"$imagepolicy": "flux-system:metallb:tag"}
+        tag: v0.14.2 # {"$imagepolicy": "flux-system:metallb:tag"}
         digest: ""
         ## Specify a imagePullPolicy
         ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -422,7 +419,6 @@ spec:
       ## @param controller.customReadinessProbe Custom readiness probe for the Web component
       ##
       customReadinessProbe: {}
-
       ## @param controller.logLevel Sets the controller log level. Does not work if the args are overridden
       ##
       logLevel: info
@@ -441,7 +437,6 @@ spec:
       ## @param controller.extraArgs Add extra arguments to the default arguments for the controller
       ##
       extraArgs: []
-
       ## @section MetalLB controller Prometheus metrics export
       ##
       metrics:
@@ -459,7 +454,7 @@ spec:
           annotations:
             prometheus.io/scrape: "true"
             prometheus.io/port: "7472"
-            prometheus.io/path: "/metrics"    ## Prometheus Operator service monitors
+            prometheus.io/path: "/metrics" ## Prometheus Operator service monitors
         ##
         serviceMonitor:
           ## @param controller.metrics.serviceMonitor.enabled Specify if a servicemonitor will be deployed for prometheus-operator
@@ -499,7 +494,6 @@ spec:
           ## @param controller.metrics.serviceMonitor.honorLabels honorLabels chooses the metric's labels on collisions with target labels
           ##
           honorLabels: false
-
     ## @section Speaker parameters
 
     ## MetalLB Speaker daemonset.
