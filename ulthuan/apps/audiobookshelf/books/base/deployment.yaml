@@ -17,8 +17,8 @@ spec:
     spec:
       volumes:
         - name: books-storage
-          persistentVolumeClaim:
-            claimName: books-pvc
+          hostPath:
+            path: /var/mnt/whatever/books
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -48,29 +48,3 @@ spec:
               mountPath: /metadata
               subPath: metadata
       restartPolicy: Always
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: books-pv
-spec:
-  capacity:
-    storage: 1Ti
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  hostPath:
-    path: /var/mnt/whatever/books
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: books-pvc
-  namespace: media
-spec:
-  volumeName: books-pv
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Ti
