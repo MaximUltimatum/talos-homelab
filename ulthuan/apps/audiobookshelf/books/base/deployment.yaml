@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: books
+  labels:
+    app: eternal-library
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eternal-library
+  template:
+    metadata:
+      name: eternal-library
+      labels:
+        app: eternal-library
+    spec:
+      volumes:
+        - name: books-storage
+          persistentVolumeClaim:
+            claimName: books-pvc
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - shostakov
+      containers:
+        - name: eternal-library
+          image: ghcr.io/advplyr/audiobookshelf:2.20.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: books-storage
+              mountPath: /audiobooks
+              subPath: audiobooks
+            - name: books-storage
+              mountPath: /podcasts
+              subPath: podcasts
+            - name: books-storage
+              mountPath: /config
+              subPath: config
+            - name: books-storage
+              mountPath: /metadata
+              subPath: metadata
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: books-pv
+spec:
+  capacity:
+    storage: 1Ti
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /var/mnt/whatever/books
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: books-pvc
+  namespace: media
+spec:
+  volumeName: books-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Ti
