@@ -7,4 +7,3 @@ data:
 kind: ConfigMap
 metadata:
   name: project-insight-postgresql-init-scripts
-  namespace: project-insight
