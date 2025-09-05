@@ -131,37 +131,13 @@ spec:
       ## @param controller.image.pullSecrets Specify docker-registry secret names as an array
       ##
       image:
-        registry: docker.io
-        repository: bitnami/metallb-controller
-        tag: v0.15.2 # {"$imagepolicy": "flux-system:metallb:tag"}
+        repository: quay.io/metallb/controller
+        tag: 0.15.2 # {"$imagepolicy": "flux-system:metallb:tag"}
         digest: ""
-        ## Specify a imagePullPolicy
-        ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
-        ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
-        ##
         pullPolicy: IfNotPresent
-        ## Optionally specify an array of imagePullSecrets.
-        ## Secrets must be manually created in the namespace.
-        ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-        ## e.g:
-        ## pullSecrets:
-        ##   - myRegistryKeySecretName
-        ##
         pullSecrets: []
-      ## @param controller.updateStrategy.type MetalLB controller deployment strategy type.
-      ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
-      ## e.g:
-      ## updateStrategy:
-      ##  type: RollingUpdate
-      ##  rollingUpdate:
-      ##    maxSurge: 25%
-      ##    maxUnavailable: 25%
-      ##
       updateStrategy:
         type: RollingUpdate
-      ## @param controller.hostAliases Deployment pod host aliases
-      ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
-      ##
       hostAliases: []
       ## If global .Values.rbac.create is disabled no rbac is created.
       ## This value is then meaningless
