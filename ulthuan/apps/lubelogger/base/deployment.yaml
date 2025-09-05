@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cumberbuns-lubelogger
+  labels:
+    app: lubelogger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lubelogger
+  template:
+    metadata:
+      name: lubelogger
+      labels:
+        app: lubelogger
+    spec:
+      volumes:
+        - name: lubebottle
+          persistentVolumeClaim:
+            claimName: lubebottle-pvc
+      containers:
+        - name: lube-benedict
+          image: ghcr.io/hargata/lubelogger:v1.3.5 # {"$imagepolicy": "flux-system:lubelogger"}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: lubebottle
+              mountPath: /App/config
+              subPath: config
+            - name: lubebottle
+              mountPath: /App/data
+              subPath: data
+            - name: lubebottle
+              mountPath: /App/wwwroot/translations
+              subPath: translations
+            - name: lubebottle
+              mountPath: /App/wwwroot/documents
+              subPath: documents
+            - name: lubebottle
+              mountPath: /App/wwwroot/images
+              subPath: images
+            - name: lubebottle
+              mountPath: /App/wwwroot/temp
+              subPath: temp
+            - name: lubebottle
+              mountPath: /App/log
+              subPath: log
+            - name: lubebottle
+              mountPath: /root/.aspnet/DataProtection-Keys
+              subPath: keys
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lubebottle-pvc
+  namespace: journal
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 30Gi
