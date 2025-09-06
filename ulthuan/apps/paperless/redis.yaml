@@ -15,11 +15,18 @@ spec:
       labels:
         app: redis
     spec:
+      securityContext:
+        fsGroup: 999
       containers:
         - name: redis
           image: docker.io/library/redis:8
           ports:
             - containerPort: 6379
+          securityContext:
+            runAsUser: 999
+            runAsGroup: 999
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
           volumeMounts:
             - name: redis-data
               mountPath: /data
@@ -41,4 +48,3 @@ spec:
     - port: 6379
       targetPort: 6379
       name: redis
-
