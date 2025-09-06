@@ -131,7 +131,7 @@ spec:
       enabled: true
       auth:
         enabled: true
-        existingSecret: tahiti-redis
+        existingSecret: paperless-paperless-redis
         existingSecretPasswordKey: redis-password
       master:
         persistence:
