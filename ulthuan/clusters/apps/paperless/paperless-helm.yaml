@@ -1,0 +1,141 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: paperless
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: paperless-helm-repo
+  namespace: paperless
+spec:
+  type: "oci"
+  interval: 10m # How often to check for updates
+  url: oci://ghcr.io/gabe565/charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: paperless
+  namespace: paperless
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: paperless-ngx
+      version: "0.11.1"
+      sourceRef:
+        kind: HelmRepository
+        name: paperless-helm-repo
+  targetNamespace: paperless
+  values:
+    image:
+      repository: ghcr.io/paperless-ngx/paperless-ngx
+      tag: 2.6.3 # {"$imagepolicy": "flux-system:paperless:tag"}
+    env:
+      TZ: UTC
+      PAPERLESS_SECRET_KEY: "paperless-secrets"
+      PAPERLESS_URL: "https://records.kingfisher-halfmoon.ts.net"
+      PAPERLESS_CONSUMER_POLLING: 5
+
+    service:
+      main:
+        ports:
+          http:
+            port: 8000
+
+    ingress:
+      # -- Enable and configure ingress settings for the chart under this key.
+      # @default -- See [values.yaml](./values.yaml)
+      metadata:
+        name: nginx
+      main:
+        enabled: true
+        labels:
+          tailscale.com/proxy-class: "irish-eyes"
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: 64m
+        hosts:
+          - host: records
+            paths:
+              - path: /
+        defaultBackend:
+          service:
+            name: tahiti-paperless-ngx
+            port:
+              number: 8000
+        ingressClassName: tailscale
+        tls:
+          - hosts:
+              - records
+
+    persistence:
+      # -- Configure data volume settings for the chart under this key.
+      # @default -- See [values.yaml](./values.yaml)
+      data:
+        enabled: true
+        retain: true
+        mountPath: /usr/src/paperless/data
+        # storageClass: ""
+        accessMode: ReadWriteOnce
+        size: 100Gi
+      # -- Configure media volume settings for the chart under this key.
+      # @default -- See [values.yaml](./values.yaml)
+      media:
+        enabled: true
+        retain: true
+        mountPath: /usr/src/paperless/media
+        # storageClass: ""
+        accessMode: ReadWriteOnce
+        size: 8Gi
+      # -- Configure export volume settings for the chart under this key.
+      # @default -- See [values.yaml](./values.yaml)
+      export:
+        enabled: true
+        retain: true
+        mountPath: /usr/src/paperless/export
+        # storageClass: ""
+        accessMode: ReadWriteOnce
+        size: 1Gi
+      # -- Configure consume volume settings for the chart under this key.
+      # @default -- See [values.yaml](./values.yaml)
+      consume:
+        enabled: true
+        retain: true
+        mountPath: /usr/src/paperless/consume
+        # storageClass: "longhorn"
+        accessMode: ReadWriteMany
+        name: phantom-tollbooth-storage
+        size: 4Gi
+
+    # -- Enable and configure postgresql database subchart under this key.
+    #    If enabled, the app's db envs will be set for you.
+    #    [[ref]](https://github.com/bitnami/charts/tree/main/bitnami/postgresql)
+    # @default -- See [values.yaml](./values.yaml)
+    postgresql:
+      enabled: true
+      auth:
+        database: paperless
+        postgresPassword:
+      primary:
+        persistence:
+          enabled: true
+          # storageClass: ""
+          size: 8Gi
+
+    # -- Enable and configure redis subchart under this key.
+    #    If enabled, the app's Redis env will be set for you.
+    #    [[ref]](https://github.com/bitnami/charts/tree/main/bitnami/redis)
+    # @default -- See [values.yaml](./values.yaml)
+    redis:
+      enabled: true
+      auth:
+        enabled: true
+        existingSecret: tahiti-redis
+        existingSecretPasswordKey: redis-password
+      master:
+        persistence:
+          enabled: false
+      replica:
+        replicaCount: 0
+

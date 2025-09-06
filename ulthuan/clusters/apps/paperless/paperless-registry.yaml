@@ -1,0 +1,20 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: paperless
+  namespace: flux-system
+spec:
+  image: ghcr.io/paperless-ngx/paperless-ngx
+  interval: 5m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: paperless
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: paperless
+  policy:
+    semver:
+      range: '>=2.0.0 <3.0.0'
