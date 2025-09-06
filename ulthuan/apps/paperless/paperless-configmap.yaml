@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: paperless-env
+data:
+  # Add your environment variables from docker-compose.env here
+  # Example variables (uncomment and modify as needed):
+  # PAPERLESS_URL: "http://localhost:8000"
+  # PAPERLESS_SECRET_KEY: "your-secret-key-here"
+  # PAPERLESS_TIME_ZONE: "America/New_York"
+  # PAPERLESS_OCR_LANGUAGE: "eng"
+  PAPERLESS_REDIS: "redis://redis-service:6379"
+  TZ: "America/Chicago"
+  PAPERLESS_SECRET_KEY: "paperless-secrets"
+  PAPERLESS_URL: "https://records.kingfisher-halfmoon.ts.net"
+  PAPERLESS_CONSUMER_POLLING: "5"
+

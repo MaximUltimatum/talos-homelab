@@ -1,0 +1,83 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paperless-webserver
+  labels:
+    app: paperless-webserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paperless-webserver
+  template:
+    metadata:
+      labels:
+        app: paperless-webserver
+    spec:
+      containers:
+        - name: paperless
+          image: ghcr.io/paperless-ngx/paperless-ngx:v2.18.2 # {"$imagepolicy": "flux-system:paperless:tag"}
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: paperless-env
+            - secretRef:
+                name: paperless-secrets
+          volumeMounts:
+            - name: paperless-data
+              mountPath: /usr/src/paperless/data
+            - name: paperless-media
+              mountPath: /usr/src/paperless/media
+            - name: paperless-export
+              mountPath: /usr/src/paperless/export
+            - name: paperless-consume
+              mountPath: /usr/src/paperless/consume
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+      volumes:
+        - name: paperless-data
+          persistentVolumeClaim:
+            claimName: paperless-data
+        - name: paperless-media
+          persistentVolumeClaim:
+            claimName: paperless-media
+        - name: paperless-export
+          persistentVolumeClaim:
+            claimName: paperless-export
+        - name: paperless-consume
+          persistentVolumeClaim:
+            claimName: paperless-consume
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: paperless-tailscale
+  labels:
+    tailscale.com/proxy-class: "irish-eyes"
+  annotations:
+    tailscale.com/hostname: records
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  selector:
+    app: paperless-webserver
+  ports:
+    - name: https
+      port: 443
+      targetPort: 8000
+    - name: http
+      port: 80
+      targetPort: 8000

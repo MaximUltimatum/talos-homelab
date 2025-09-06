@@ -1,9 +1,16 @@
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: paperless
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: paperless
 resources:
   - phantom-tollbooth-tahiti.yaml
   - sealed-paperless-secrets.yaml
-  - sealed-postgres-secrets.yaml
-  - sealed-redis-secrets.yaml
+  - redis.yaml
+  - paperless.yaml
+  - paperless-pvc.yaml
+  - paperless-configmap.yaml

@@ -16,7 +16,7 @@ spec:
       volumes:
         - name: phantom-tollbooth-storage
           persistentVolumeClaim:
-            claimName: paperless-paperless-paperless-ngx-consume
+            claimName: paperless-consume
       containers:
       - name: tollbooth
         image: garethflowers/ftp-server
