@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,42 +26,42 @@ spec:
           persistentVolumeClaim:
             claimName: gathio-db-pvc
       containers:
-          - name: gathio-container
-            image: ghcr.io/lowercasename/gathio:v1.5.2 # {"$imagepolicy": "flux-system:gathio"}
-            imagePullPolicy: IfNotPresent
-            env:
-              - name: SMTP_HOST
-                valueFrom:
-                  secretKeyRef:
-                    name: smtp-secrets
-                    key: smtp-host
-              - name: SMTP_USER
-                valueFrom:
-                  secretKeyRef:
-                    name: smtp-secrets
-                    key: smtp-username
-              - name: SMTP_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: smtp-secrets
-                    key: smtp-password
-            ports:
-              - containerPort: 443
-            volumeMounts:
-              - name: config-volume
-                mountPath: /app/config/config.toml
-                subPath: config.toml
-              - name: gathio-storage
-                mountPath: /app/static
-                subPath: static
-              - name: gathio-storage
-                mountPath: /app/public/events
-                subPath: images
-          - name: gathio-db
-            image: mongo:latest
-            imagePullPolicy: IfNotPresent
-            ports:
-              - containerPort: 27017
-            volumeMounts:
-              - name: gathio-db-storage
-                mountPath: /data/db
+        - name: gathio-container
+          image: ghcr.io/lowercasename/gathio:1.6.0 # {"$imagepolicy": "flux-system:gathio"}
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SMTP_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: smtp-secrets
+                  key: smtp-host
+            - name: SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: smtp-secrets
+                  key: smtp-username
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: smtp-secrets
+                  key: smtp-password
+          ports:
+            - containerPort: 443
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config/config.toml
+              subPath: config.toml
+            - name: gathio-storage
+              mountPath: /app/static
+              subPath: static
+            - name: gathio-storage
+              mountPath: /app/public/events
+              subPath: images
+        - name: gathio-db
+          image: mongo:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: gathio-db-storage
+              mountPath: /data/db
