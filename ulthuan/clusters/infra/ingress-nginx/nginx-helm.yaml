@@ -1,31 +1,41 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: cert-manager
+  name: ingress-nginx
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: cert-manager-helm-repo
-  namespace: cert-manager
+  name: ingress-nginx-helm-repo
+  namespace: ingress-nginx
 spec:
   interval: 10m # How often to check for updates
-  url: https://charts.jetstack.io
+  url: https://kubernetes.github.io
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: cert-manager
-  namespace: cert-manager
+  name: ingress-nginx
+  namespace: ingress-nginx
 spec:
   interval: 1m
   chart:
     spec:
-      chart: cert-manager
-      version: "v1.13.2" # {"$imagepolicy": "flux-system:cert-manager:tag"}
+      chart: ingress-nginx
+      version: "4.9.0" # {"$imagepolicy": "flux-system:ingress-nginx:tag"}
       sourceRef:
         kind: HelmRepository
-        name: cert-manager-helm-repo
-  targetNamespace: cert-manager
+        name: ingress-nginx-helm-repo
+  targetNamespace: ingress-nginx
   values:
-    installCRDs: true
+    controller:
+      service:
+        type: NodePort
+        nodePorts:
+          http: 32080
+          https: 32443
+      # -- This configuration defines if Ingress Controller should allow users to set
+      # their own *-snippet annotations, otherwise this is forbidden / dropped
+      # when users add those annotations.
+      # Global snippets in ConfigMap are still respected
+      allowSnippetAnnotations: true
