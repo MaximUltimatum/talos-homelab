@@ -59,7 +59,7 @@ kind: Service
 metadata:
   name: phantom-conductor
   annotations:
-    metallb.universe.tf/loadbalancer-ips: "192.168.42.4"
+      metallb.io/loadBalancerIPs: 192.168.42.0
 spec:
   type: LoadBalancer
   selector:

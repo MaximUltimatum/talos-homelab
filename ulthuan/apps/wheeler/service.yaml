@@ -18,6 +18,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: qbittorrent-lb
+  annotations:
+    metallb.io/loadBalancerIPs: 192.168.42.1
   labels:
     app: qbittorrent
 spec:

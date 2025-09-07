@@ -30,10 +30,10 @@ spec:
   values:
     controller:
       service:
-        type: NodePort
-        nodePorts:
-          http: 32080
-          https: 32443
+        type: LoadBalancer
+      metadata:
+        annotations:
+          metallb.io/loadBalancerIPs: 192.168.42.4
       # -- This configuration defines if Ingress Controller should allow users to set
       # their own *-snippet annotations, otherwise this is forbidden / dropped
       # when users add those annotations.
