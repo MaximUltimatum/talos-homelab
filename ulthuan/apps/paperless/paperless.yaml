@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,7 +16,7 @@ spec:
     spec:
       containers:
         - name: paperless
-          image: ghcr.io/paperless-ngx/paperless-ngx:2.18.2 # {"$imagepolicy": "flux-system:paperless:tag"}
+          image: 2.18.3 # {"$imagepolicy": "flux-system:paperless:tag"}
           ports:
             - containerPort: 8000
           envFrom:
@@ -59,7 +58,6 @@ spec:
         - name: paperless-consume
           persistentVolumeClaim:
             claimName: paperless-consume
-
 ---
 apiVersion: v1
 kind: Service
