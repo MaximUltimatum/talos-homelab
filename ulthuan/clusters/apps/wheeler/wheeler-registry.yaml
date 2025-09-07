@@ -1,0 +1,20 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: wheeler
+  namespace: flux-system
+spec:
+  image: ghcr.io/linuxserver/qbittorrent
+  interval: 5m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: wheeler
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: wheeler
+  policy:
+    semver:
+      range: '>=4.0.0 <6.0.0'

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+  labels:
+    app: qbittorrent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qbittorrent
+  template:
+    metadata:
+      name: qbittorrent
+      labels:
+        app: qbittorrent
+    spec:
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: qbittorrent-config
+        - name: downloads
+          hostPath:
+            path: /var/mnt/whatever/cannonball
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - alithanar
+      containers:
+        - name: qbittorrent
+          image: ghcr.io/linuxserver/qbittorrent:5.1.2 # {"$imagepolicy": "flux-system:wheeler"}
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DOCKER_MODS
+              value: ghcr.io/gabe565/linuxserver-mod-vuetorrent
+            - name: TZ
+              value: CST
+            - name: TORRENTING_PORT
+              value: "42429"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: bittorrent
+              containerPort: 42429
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+      restartPolicy: Always

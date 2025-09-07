@@ -1,0 +1,23 @@
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: qbittorrent
+  labels:
+    tailscale.com/proxy-class: "irish-eyes"
+spec:
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - bandit
+  rules:
+    - host: bandit
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: qbittorrent
+                port:
+                  number: 8080

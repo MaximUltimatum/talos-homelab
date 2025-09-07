@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: qbittorrent-clusterip
+  labels:
+    app: qbittorrent
+spec:
+  type: ClusterIP
+  selector:
+    app: qbittorrent
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qbittorrent-lb
+  labels:
+    app: qbittorrent
+spec:
+  type: LoadBalancer
+  selector:
+    app: qbittorrent
+  ports:
+    - name: bittorrent
+      port: 42429
+      targetPort: bittorrent
+      protocol: TCP
