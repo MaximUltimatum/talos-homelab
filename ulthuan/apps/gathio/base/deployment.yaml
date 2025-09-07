@@ -28,7 +28,7 @@ spec:
             claimName: gathio-db-pvc
       containers:
           - name: gathio-container
-            image: ghcr.io/lowercasename/gathio:latest
+            image: ghcr.io/lowercasename/gathio:v1.5.2 # {"$imagepolicy": "flux-system:gathio"}
             imagePullPolicy: IfNotPresent
             env:
               - name: SMTP_HOST
