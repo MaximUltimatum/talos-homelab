@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gathio-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: events.maximstroud.de
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gathio-svc
+                port:
+                  number: 443
+  tls:
+    - hosts:
+        - events.maximstroud.de
+      secretName: events.maximstroud.de-cert
