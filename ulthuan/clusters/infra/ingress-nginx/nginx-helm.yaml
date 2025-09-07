@@ -10,7 +10,7 @@ metadata:
   namespace: ingress-nginx
 spec:
   interval: 10m # How often to check for updates
-  url: https://kubernetes.github.io
+  url: https://kubernetes.github.io/ingress-nginx
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
