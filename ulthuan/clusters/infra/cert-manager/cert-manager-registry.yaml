@@ -1,0 +1,21 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: cert-manager
+  namespace: flux-system
+spec:
+  image: quay.io/jetstack/charts/cert-manager
+  interval: 5m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: cert-manager
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: cert-manager
+  policy:
+    semver:
+      range: '>=1.0.0 <2.0.0'
