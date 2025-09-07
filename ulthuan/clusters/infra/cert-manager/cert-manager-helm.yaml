@@ -9,9 +9,8 @@ metadata:
   name: cert-manager-helm-repo
   namespace: cert-manager
 spec:
-  type: "oci"
   interval: 10m # How often to check for updates
-  url: oci://quay.io/jetstack/charts/cert-manager
+  url: https://charts.jetstack.io
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
