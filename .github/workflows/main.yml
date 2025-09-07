@@ -109,7 +109,6 @@ jobs:
             echo "Existing Flux PR found (#$EXISTING_PR). Closing old PR and creating new one."
             gh pr close "$EXISTING_PR" --comment "Closing in favor of newer update: #$NEW_BRANCH"
           fi
-          git push origin --delete flux-renovate
           
           # Create the PR using GitHub CLI
           gh pr create \
