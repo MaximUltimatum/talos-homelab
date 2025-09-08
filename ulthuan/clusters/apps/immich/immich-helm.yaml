@@ -41,7 +41,7 @@ spec:
             name: immich-insight-clearance
             key: postgres-password
     image:
-      tag: v1.140.1 # {"$imagepolicy": "flux-system:immich:tag"}
+      tag: v1.141.1 # {"$imagepolicy": "flux-system:immich:tag"}
     immich:
       persistence:
         library:
