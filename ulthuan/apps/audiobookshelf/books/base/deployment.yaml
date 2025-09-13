@@ -30,6 +30,9 @@ spec:
                       - alithanar
       containers:
         - name: eternal-library
+          resources:
+            requests:
+              memory: "8Gi"
           image: ghcr.io/advplyr/audiobookshelf:2.29.0 # {"$imagepolicy": "flux-system:audiobookshelf"}
           imagePullPolicy: IfNotPresent
           ports:
