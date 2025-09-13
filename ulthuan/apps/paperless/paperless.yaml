@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: paperless
-          image: 2.18.3 # {"$imagepolicy": "flux-system:paperless:tag"}
+          image: 2.18.4 # {"$imagepolicy": "flux-system:paperless:tag"}
           ports:
             - containerPort: 8000
           envFrom:
