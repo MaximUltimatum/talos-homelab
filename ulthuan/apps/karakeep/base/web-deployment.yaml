@@ -32,8 +32,8 @@ spec:
           envFrom:
             - secretRef:
                 name: karakeep-secrets
-            - configMapRef:
-                name: karakeep-configuration
+            #- configMapRef:
+            #    name: karakeep-configuration
       volumes:
         - name: data
           persistentVolumeClaim:
