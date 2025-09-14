@@ -50,4 +50,4 @@ spec:
         storageClass: 'longhorn'
       media:
         enabled: true
-        existingClaim: 'benoit-pvc'
+        existingClaim: 'video-media-pvc'
