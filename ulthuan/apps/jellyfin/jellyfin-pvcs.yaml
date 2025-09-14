@@ -7,6 +7,9 @@ spec:
   volumeName: video-media-pv
   accessModes:
     - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Ti
 ---
 apiVersion: v1
 kind: PersistentVolume
