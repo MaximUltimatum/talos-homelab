@@ -4,6 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: video-media-pvc
 spec:
+  storageClassName: local-storage
   volumeName: video-media-pv
   accessModes:
     - ReadWriteMany
