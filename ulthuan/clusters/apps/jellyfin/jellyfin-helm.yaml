@@ -1,0 +1,53 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: jellyfin
+  namespace: media
+spec:
+  interval: 10m # How often to check for updates
+  url: https://jellyfin.github.io/jellyfin-helm
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jellyfin
+  namespace: media
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: jellyfin
+      version: 2.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: jellyfin
+  targetNamespace: media
+  values:
+    image:
+      tag: "10.10.7" # {"$imagepolicy": "flux-system:jellyfin:tag"}
+    ingress:
+      enabled: true
+      className: tailscale
+      annotations:
+        tailscale.com/hostname: videos
+      labels:
+        tailscale.com/proxy-class: "irish-eyes"
+      hosts:
+        - host: videos
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - hosts:
+            - videos
+    nodeSelector:
+      kubernetes.io/hostname: alithanar
+    persistence:
+      config:
+        enabled: true
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        storageClass: 'longhorn'
+      media:
+        enabled: true
+        existingClaim: 'benoit-pvc'

@@ -1,0 +1,20 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: jellyfin
+  namespace: flux-system
+spec:
+  image: docker.io/jellyfin/jellyfin
+  interval: 5m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: jellyfin
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: jellyfin
+  policy:
+    semver:
+      range: '>=10.0.0 <11.0.0'

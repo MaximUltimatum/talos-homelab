@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: video-media-pvc
+spec:
+  volumeName: video-media-pv
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: video-media-pv
+spec:
+  capacity:
+    storage: 1Ti
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteMany
+  storageClassName: local-storage
+  local:
+    path: /var/mnt/whatever/jellyfin
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - alithanar
