@@ -5,6 +5,8 @@ metadata:
   name: video-media-pvc
 spec:
   volumeName: video-media-pv
+  accessModes:
+    - ReadWriteMany
 ---
 apiVersion: v1
 kind: PersistentVolume
