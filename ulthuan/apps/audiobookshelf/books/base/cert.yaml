@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: books.maximstroud.de-cert
+spec:
+  dnsNames:
+    - "books.maximstroud.de"
+  secretName: books.maximstroud.de-cert
+  issuerRef:
+    name: letsencrypt-cloudflare-issuer
+    kind: ClusterIssuer
