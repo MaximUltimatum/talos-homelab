@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: audiobookshelf-headers
+  namespace: media
+data:
+  X-Forwarded-For: "$proxy_add_x_forwarded_for"
+  X-Forwarded-Proto: "$scheme"
+  Host: "$http_host"
+  Upgrade: "$http_upgrade"
+  Connection: "upgrade"

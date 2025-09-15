@@ -5,5 +5,7 @@ kind: Kustomization
 resources:
 - base/deployment.yaml
 - base/loadbalancer.yaml
+- base/custom-headers.yaml
+- base/ingress-nginx.yaml
 
 namespace: media
