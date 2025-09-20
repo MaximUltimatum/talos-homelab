@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-server
+  labels:
+    app: nfs-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-server
+  template:
+    metadata:
+      name: nfs-server
+      labels:
+        app: nfs-server
+    spec:
+      volumes:
+        - name: nfs-storage
+          hostPath:
+            path: /host/var/mnt/donut/backups
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - alithanar
+      containers:
+        - name: nfs-server
+          image: erichough/nfs-server:2.2.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 2049
+              name: nfs
+          securityContext:
+            privileged: true
+          env:
+            - name: NFS_EXPORT_0
+              value: "/exports *(rw,fsid=0,async,no_subtree_check,no_auth_nlm,insecure,no_root_squash)"
+          volumeMounts:
+            - name: nfs-storage
+              mountPath: /exports
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nfs-server-service
+  labels:
+    app: nfs-server
+spec:
+  type: NodePort
+  selector:
+    app: nfs-server
+  ports:
+    - name: nfs
+      port: 2049
