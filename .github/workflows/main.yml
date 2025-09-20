@@ -102,14 +102,6 @@ jobs:
           COMMIT_MESSAGE=$(git log -1 --pretty=format:"%s")
           COMMIT_BODY=$(git log -1 --pretty=format:"%b")
           
-          # Check if PR already exists for similar changes
-          EXISTING_PR=$(gh pr list --base master --state open --search "Flux Image Update" --json number --jq '.[0].number // empty')
-          
-          if [ -n "$EXISTING_PR" ]; then
-            echo "Existing Flux PR found (#$EXISTING_PR). Closing old PR and creating new one."
-            gh pr close "$EXISTING_PR" --comment "Closing in favor of newer update: #$NEW_BRANCH"
-          fi
-          
           # Create the PR using GitHub CLI
           gh pr create \
             --title "🤖 Flux Image Update: $COMMIT_MESSAGE" \
