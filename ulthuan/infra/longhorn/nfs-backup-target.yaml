@@ -52,7 +52,7 @@ metadata:
   labels:
     app: nfs-server
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: nfs-server
   ports:
