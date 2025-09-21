@@ -47,7 +47,7 @@ spec:
                   name: smtp-secrets
                   key: smtp-password
           volumeMounts:
-            - name: gathio-config
+            - name: config-volume
               mountPath: /in
               readOnly: true
             - name: rendered-config
