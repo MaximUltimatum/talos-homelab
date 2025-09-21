@@ -19,16 +19,17 @@ spec:
         - name: gathio-storage
           persistentVolumeClaim:
             claimName: gathio-pvc
-        - name: config-volume
-          configMap:
-            name: gathio-config
         - name: gathio-db-storage
           persistentVolumeClaim:
             claimName: gathio-db-pvc
-      containers:
-        - name: gathio-container
-          image: ghcr.io/lowercasename/gathio:1.6.0 # {"$imagepolicy": "flux-system:gathio"}
-          imagePullPolicy: IfNotPresent
+        - name: config-volume
+          configMap:
+            name: gathio-config
+        - name: rendered-config
+          emptyDir: {}
+      initContainers:
+        - name: render-config
+          image: alpine:3.20
           env:
             - name: SMTP_HOST
               valueFrom:
@@ -45,10 +46,32 @@ spec:
                 secretKeyRef:
                   name: smtp-secrets
                   key: smtp-password
+          volumeMounts:
+            - name: gathio-config
+              mountPath: /in
+              readOnly: true
+            - name: rendered-config
+              mountPath: /work
+          command:
+            - sh
+            - -ceu
+            - |
+              cp /in/config.toml /work/config.toml
+              # Helper to escape sed replacements safely (slashes & ampersands)
+              esc() { printf '%s' "$1" | sed -e 's/[\/&]/\\&/g'; }
+              # Replace tokens in the TOML with env vars
+              [ -n "${SMTP_HOST:-}" ] && sed -i "s/SMTP_HOST/$(esc "$SMTP_HOST")/g" /work/config.toml
+              [ -n "${SMTP_USER:-}" ] && sed -i "s/SMTP_USER/$(esc "$SMTP_USER")/g" /work/config.toml
+              [ -n "${SMTP_PASSWORD:-}" ] && sed -i "s/SMTP_PASSWORD/$(esc "$SMTP_PASSWORD")/g" /work/config.toml
+
+      containers:
+        - name: gathio-container
+          image: ghcr.io/lowercasename/gathio:1.6.0 # {"$imagepolicy": "flux-system:gathio"}
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 443
           volumeMounts:
-            - name: config-volume
+            - name: rendered-config
               mountPath: /app/config/config.toml
               subPath: config.toml
             - name: gathio-storage

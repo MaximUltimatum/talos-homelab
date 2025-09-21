@@ -8,7 +8,7 @@
        # Your domain goes here. If there is a port it should be 'domain.com:port', but
        # otherwise just 'domain.com'.
        domain = "events.maximstroud.de"
-       port = "443" # No port for now?
+       port = "443"
        email = "stroudmcdermott@gmail.com"
        site_name = "McDermott Events"
        is_federated = true
@@ -41,10 +41,10 @@
        mongodb_url = "mongodb://localhost:27017/gathio"
 
        [nodemailer]
-       smtp_server = "$SMTP_HOST"
+       smtp_server = "SMTP_HOST"
        smtp_port = "465"
-       smtp_username = "$SMTP_USER"
-       smtp_password = "$SMTP_PASSWORD"
+       smtp_username = "SMTP_USER"
+       smtp_password = "SMTP_PASSWORD"
 
        [sendgrid]
        api_key = ""
