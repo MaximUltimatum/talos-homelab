@@ -28,7 +28,7 @@
        # Which mail service to use to send emails to hosts and attendees. Options are
        # 'nodemailer', 'sendgrid', or 'none'. Configure settings for this mail
        # service below.
-       mail_service = "none"
+       mail_service = "nodemailer"
        # An array of email addresses which are permitted to create events. If this is
        # empty, anyone can create events.
        # For example:
