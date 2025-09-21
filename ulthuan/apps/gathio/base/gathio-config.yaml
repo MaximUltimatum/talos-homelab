@@ -41,10 +41,10 @@
        mongodb_url = "mongodb://localhost:27017/gathio"
 
        [nodemailer]
-       smtp_server = "${SMTP_HOST}"
+       smtp_server = "$SMTP_HOST"
        smtp_port = "465"
-       smtp_username = "${SMTP_USER}"
-       smtp_password = "${SMTP_PASSWORD}"
+       smtp_username = "$SMTP_USER"
+       smtp_password = "$SMTP_PASSWORD"
 
        [sendgrid]
        api_key = ""
