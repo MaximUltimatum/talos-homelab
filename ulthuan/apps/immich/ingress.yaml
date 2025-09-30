@@ -12,7 +12,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: project-insight-server
+                name: journal-immich-server
                 port:
                   number: 2283
   tls:
