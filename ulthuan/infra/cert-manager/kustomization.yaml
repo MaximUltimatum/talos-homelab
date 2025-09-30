@@ -6,3 +6,4 @@ resources:
 - sealed-cloudflare-secret.yaml
 - gathio-cert.yaml
 - media-cert.yaml
+- journal-cert.yaml
