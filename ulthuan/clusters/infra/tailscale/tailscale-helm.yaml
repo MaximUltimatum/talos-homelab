@@ -24,7 +24,7 @@ spec:
   chart:
     spec:
       chart: tailscale-operator
-      version: "v1.88.2" # {"$imagepolicy": "flux-system:tailscale:tag"}
+      version: "v1.88.3" # {"$imagepolicy": "flux-system:tailscale:tag"}
       sourceRef:
         kind: HelmRepository
         name: tailscale-helm-repo
