@@ -7,3 +7,4 @@ resources:
 - gathio-cert.yaml
 - media-cert.yaml
 - journal-cert.yaml
+- vikunja-cert.yaml
