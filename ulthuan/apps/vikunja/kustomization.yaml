@@ -4,4 +4,6 @@ kind: Kustomization
 namespace: vikunja
 resources:
   - sealed-vikunja-credentials.yaml
+  - sealed-vikunja-env.yaml
+  - vikunja-ingress.yaml
   - ../shared

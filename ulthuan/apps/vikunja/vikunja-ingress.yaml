@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vikunja-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: tasks.maximstroud.de
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: vikunja-vikunja
+                port:
+                  number: 3456
+  tls:
+    - hosts:
+        - tasks.maximstroud.de
+      secretName: maximstroud.de-cert
