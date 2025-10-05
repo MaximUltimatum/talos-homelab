@@ -29,33 +29,14 @@ spec:
         name: vikunja-helm-repo
   targetNamespace: vikunja
   values:
-    ## This chart relies on the common library chart from bjw-s
-    ## You can find it and the values you can provide and modify, at https://github.com/bjw-s/helm-charts/tree/a081de53024d8328d1ae9ff7e4f6bc500b0f3a29/charts/library/common
-    ## Here's the link to the values.yaml file: https://github.com/bjw-s/helm-charts/blob/a081de53024d8328d1ae9ff7e4f6bc500b0f3a29/charts/library/common/values.yaml
-    ## Refer there for more detail about the supported values.
-    ## Any values that you find in the above `values.yaml` can be provided to this chart and are then rendered.
-
-    ######################
-    # VIKUNJA COMPONENTS #
-    ######################
-    # You can find the default values that this `values.yaml` overrides, in the comment at the top of this file.
     vikunja:
-      image:
-        repository: vikunja/vikunja
-        tag: 0.24.6 # {"$imagepolicy": "flux-system:vikunja:tag"}
-        #pullPolicy: Always
       persistence:
         config:
-          name: "{{ .Release.Name }}-api-config"
-        # This is your Vikunja data will live, you can either let
-        # the chart create a new PVC for you or provide an existing one.
-        data:
-          enabled: true
-          # existingClaim: # your-claim
-          accessMode: ReadWriteOnce
-          size: 10Gi
-          mountPath: /app/vikunja/files
-          # storageClass: storage-class
+          type: secret
+          name: vikunja-config
+      image:
+        repository: vikunja/vikunja
+        tag: unstable # {"$imagepolicy": "flux-system:vikunja:tag"}
       ingress:
         main:
           enabled: true
@@ -75,33 +56,6 @@ spec:
           tls:
             - hosts:
                 - tasks
-      configMaps:
-        # The configuration for Vikunja's api
-        # https://vikunja.io/docs/config-options/
-        api-config:
-          enabled: true
-          data:
-            config.yml: |
-              typesense:
-                # These configuration values will automatically apply
-                # if the integrated Typesense is enabled below (typesense.enabled)
-                url: "http://{{ printf "%s-typesense" .Release.Name }}:8108"
-                apiKey: "{{ .Values.typesense.env.TYPESENSE_API_KEY }}"
-              redis:
-                # These configuration values will automatically apply
-                # if the integrated Redis is enabled below (redis.enabled)
-                host: "http://{{ printf "%s-redis-master" .Release.Name }}:6379"
-                db: "{{ .Release.Name }}"
-              auth:
-                openid:
-                  enabled: true
-                  providers:
-                    - name: authentik
-                      authurl: "https://auth.thescience.team/application/o/vikunja/"
-                      logouturl: "https://auth.thescience.team/application/o/vikunja/end-session/"
-      envFrom:
-        - secretRef:
-            name: vikunaja-env
       env:
         # To utilize a secret in the environment variables, you can do something like the following: https://github.com/bjw-s/helm-charts/blob/a081de53024d8328d1ae9ff7e4f6bc500b0f3a29/charts/library/common/values.yaml#L141-L145
         # You could also use MySQL or SQLite, but we recommend PostgreSQL.
@@ -146,34 +100,9 @@ spec:
               name: smtp-secrets
               key: smtp-password
         VIKUNJA_MAILER_FROMEMAIL: tasks@maximultimatum.de
-    ##########################
-    # END VIKUNJA COMPONENTS #
-    ##########################
-
-    # Optional Dependencies
-
-    #  ┬─┐┌─┐┐─┐┌┐┐┌─┐┬─┐┬─┐┐─┐┐─┐┬
-    #  │─┘│ │└─┐ │ │ ┬│┬┘├─ └─┐│ ││
-    #  ┘  ┘─┘──┘ ┘ ┘─┘┘└┘┴─┘──┘└─\┘─┘
-    # Please refer to PostgreSQL subchart for a full list of possible values
-    # https://github.com/bitnami/charts/tree/main/bitnami/postgresql/#parameters
     postgresql:
-      enabled: true
-      primary:
-        networkPolicy:
-          enabled: false
       auth:
         existingSecret: vikunja-credentials
-    #  ┬─┐┬─┐┬─┐o┐─┐
-    #  │┬┘├─ │ ││└─┐
-    #  ┘└┘┴─┘┘─┘┘──┘
-    # Please refer to Redis subchart for a full list of possible values
-    # https://github.com/bitnami/charts/tree/main/bitnami/redis/#parameters
-    redis:
-      enabled: false
-      architecture: standalone
-      auth:
-        enabled: false
     typesense:
       enabled: true
       env:
@@ -181,11 +110,9 @@ spec:
         TYPESENSE_API_KEY: typesense
       persistence:
         data:
-          # Enabling typesense persistence is recommended to avoid slow reindexing
           enabled: true
           accessMode: ReadWriteOnce
           size: 2Gi
-          # storageClass: storage-class
       image:
         repository: docker.io/typesense/typesense
         tag: 0.25.1

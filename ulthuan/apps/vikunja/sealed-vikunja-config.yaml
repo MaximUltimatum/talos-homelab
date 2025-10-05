@@ -1,0 +1,18 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
+  name: vikunja-config
+  namespace: vikunja
+spec:
+  encryptedData:
+    config.yml: AgBAyOyaUezGAOc9BX9OLNMdjxfQZlwSIYPtQpyNGBCGOCyNsYDNIgd3G0mBgB6wMJARK49YGfArY2NAU9YI3ISdNITnC/Z7HpuiEV/HW5SnOGYMkA7/6Svr5OQ43zWu1VFovT3KvhezIy8x2wOrBn0s7TExFEmFtp79w8AE4HrHTWc/swdFIpXgaLrIFBZ7JetknrUUwFR06GTNvgCsdfELNdMUZrsX16wAzKuSamQwzCGy4R+j30trZ4nPuoeIQtMVNpgZYDKOsSGbxK/NjQY0T2127ZS89YaN7ZDrqM4Fst8hRb8QGlg3qw4/uGsYmE6f3vk7FOdMCNM2KorJ2fsL0C9NwHKlP5Vgt3J0MGP41twn5meZy29AqpBhFkrUkabvytjlhb1l7mAlOKWpSFk6m/BMSqA2fTfx5eovi6VAebOG++LnxjUBaoajv+DCpRRQ6fEIN6CDhEv8kXLojc0Tam+YKiTdSVYF6glBXVeuXSDy/P320Mpwz0zhnUf0HRga5ZvQ6Mn54TUZ2v0qNOzwEc/l9SwlcXHesoqBx2kMdhfTvXogTgf+3KP5+dDnLl3ls+EsDJbiADXG9kdMNbbp63oFCrVwgMm0ZHB2CN47kDYXtBgeUfBBjUrtWx7vWSID8qNWmQHRfyP1fCVN4W29Ybs93SPKhaiSR0rmYtryZbHrcXv8JWadGN/RPLD0F8qFUne9ELuOORQKrDBEzrBz3JI+rdXDFSfcWL3iVRSqK4oiBGLWiS3hszvaej6y0ZNUsnzs/EbyfaiffM2QoevMC4hM9JykqX3EyXEsGfDUbxqswzEk9DPoa+D5Q0uQe5A26klKbQnXE6Rar6crRI4FXgvIwWde0diGknkMOeHSZAELGUoS7+ufneDJZ6mlE8OzseSk62lc3aS8MiZdPBCSsVEcK9CtVWJjgRbQG71VnuuzwuI8cPRarz6E4+D9Gmw4lkAh41fhGGxOL9a8qcPJpazS9iK1+tJJoQIo1hMS1Lw62vhSCaxtpmcN6LuSoRtA8ACzgegrCjd9xMaGctxqqq/ANEuj9jz4JCpJKFmia1G+FkZ2UN8ugsdKNvzeE9utFPi30PMcZDoT08gxs4rn+QHZSRYnii++k1kzd42VMOnz9Fmu/nuGNMR10iOQ3r5KLPLboS4ognLmTZDygXufX/98ShOgCBYORybu3mVUzf345t1gReKQ4QwZ25pE3nfWj2rloldky0m8ERmTMEZ5mExpNBaHIn9J+dV/lw1lFo/8wLtHxLr7NuBPKGrp0V23PMYgiGxrIX5o0l9gkl/r2Y734Dir7MkcpJ05OA7YQaKV8KqhsQUsujeZU/o6hhNzXfTayN3fNErQmgY2qak0THb6ubsVkF4e
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: "true"
+      name: vikunja-config
+      namespace: vikunja
+    type: Opaque
