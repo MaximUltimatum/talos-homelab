@@ -99,13 +99,13 @@ spec:
                     - name: authentik
                       authurl: "https://auth.thescience.team/application/o/vikunja/"
                       logouturl: "https://auth.thescience.team/application/o/vikunja/end-session/"
+      envFrom:
+        - secretRef:
+            name: vikunja-env
       env:
         # To utilize a secret in the environment variables, you can do something like the following: https://github.com/bjw-s/helm-charts/blob/a081de53024d8328d1ae9ff7e4f6bc500b0f3a29/charts/library/common/values.yaml#L141-L145
         # You could also use MySQL or SQLite, but we recommend PostgreSQL.
         # https://vikunja.io/docs/config-options/#type
-        envFrom:
-          - secretRef:
-              name: vikunja-env
         VIKUNJA_SERVICE_PUBLICURL: "https://tasks.kingfisher-halfmoon.ts.net"
         VIKUNJA_DATABASE_TYPE: "postgres"
         VIKUNJA_DATABASE_USER:
