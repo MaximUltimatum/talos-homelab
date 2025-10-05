@@ -36,7 +36,7 @@ spec:
           name: vikunja-config
       image:
         repository: vikunja/vikunja
-        tag: unstable # {"$imagepolicy": "flux-system:vikunja:tag"}
+        tag: 0.24.6 # {"$imagepolicy": "flux-system:vikunja:tag"}
       ingress:
         main:
           enabled: false # set in resources
