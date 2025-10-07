@@ -22,7 +22,7 @@ spec:
   chart:
     spec:
       chart: cert-manager
-      version: "v1.18.2" # {"$imagepolicy": "flux-system:cert-manager:tag"}
+      version: "v1.19.0" # {"$imagepolicy": "flux-system:cert-manager:tag"}
       sourceRef:
         kind: HelmRepository
         name: cert-manager-helm-repo
