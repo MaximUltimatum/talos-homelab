@@ -89,6 +89,7 @@ spec:
       env:
         TYPESENSE_DATA_DIR: /data
         TYPESENSE_API_KEY: typesense
+        VIKUNJA_TYPESENSE_URL: http://vikunja-vikunja-typesense.vikunja.svc.cluster.local:8108
       persistence:
         data:
           enabled: true
