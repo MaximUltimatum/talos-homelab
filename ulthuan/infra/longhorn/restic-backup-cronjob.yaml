@@ -36,7 +36,7 @@ spec:
                 defaultMode: 0400
                 items:
                   - key: id_rsa
-                    path: /root/.ssh/id_rsa
+                    path: id_rsa
                     mode: 0400
             - name: restic-ssh-config
               secret:
@@ -44,7 +44,7 @@ spec:
                 defaultMode: 0400
                 items:
                   - key: config
-                    path: /root/.ssh/config
+                    path: config
                     mode: 0400
           containers:
             - name: restic
@@ -67,7 +67,12 @@ spec:
                 - name: donut-backups
                   mountPath: /data
                 - name: restic-ssh
-                  mountPath: /root/.ssh
+                  mountPath: /root/.ssh/id_rsa
+                  subPath: id_rsa
+                  readOnly: true
+                - name: restic-ssh-config
+                  mountPath: /root/.ssh/config
+                  subPath: config
                   readOnly: true
               command:
                 - /bin/sh
