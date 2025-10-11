@@ -1,0 +1,83 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: restic-backup
+  labels:
+    app: restic-backup
+spec:
+  schedule: "0 3 * * *" # every morning at 3
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: restic-backup
+        spec:
+          restartPolicy: OnFailure
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - alithanar
+          volumes:
+            - name: donut-backups
+              hostPath:
+                path: /var/mnt/donut/backups
+            - name: restic-ssh
+              secret:
+                secretName: restic-backup-credentials
+                defaultMode: 0400
+                items:
+                  - key: id_rsa
+                    path: /root/.ssh/id_rsa
+                    mode: 0400
+            - name: restic-ssh-config
+              secret:
+                secretName: restic-backup-credentials
+                defaultMode: 0400
+                items:
+                  - key: config
+                    path: /root/.ssh/config
+                    mode: 0400
+          containers:
+            - name: restic
+              image: ghcr.io/restic/restic:0.18.1
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: RESTIC_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: restic-backup-credentials
+                      key: RESTIC_PASSWORD
+                - name: RESTIC_REPOSITORY
+                  valueFrom:
+                    secretKeyRef:
+                      name: restic-backup-credentials
+                      key: RESTIC_REPOSITORY
+                - name: RESTIC_TAG
+                  value: donut-backups
+              volumeMounts:
+                - name: donut-backups
+                  mountPath: /data
+                - name: restic-ssh
+                  mountPath: /root/.ssh
+                  readOnly: true
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -euo pipefail
+                  echo "$RESTIC_PASSWORD" >> /restic_password
+                  # Ensure SSH permissions are correct (just in case)
+                  chmod 700 /root/.ssh || true
+                  chmod 400 /root/.ssh/id_rsa || true
+                  # Perform the backup limited to 133 Mb/s
+                  restic backup /data --tag "${RESTIC_TAG:-cron}" --verbose --password-file /restic_password -r "${RESTIC_REPOSITORY:-}" --limit-upload 16666
+                  rm /restic_password

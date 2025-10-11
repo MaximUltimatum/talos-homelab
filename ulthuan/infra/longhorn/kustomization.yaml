@@ -5,3 +5,5 @@ namespace: longhorn-system
 resources:
 - service.yaml
 - nfs-backup-target.yaml
+- restic-backup-cronjob.yaml
+- restic-backup-creds.yaml
