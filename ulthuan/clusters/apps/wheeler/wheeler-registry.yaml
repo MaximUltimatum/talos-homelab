@@ -1,4 +1,4 @@
-apiVersion: image.toolkit.fluxcd.io/v1
+apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
   name: wheeler
@@ -7,7 +7,7 @@ spec:
   image: ghcr.io/linuxserver/qbittorrent
   interval: 5m0s
 ---
-apiVersion: image.toolkit.fluxcd.io/v1
+apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
   name: wheeler

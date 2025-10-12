@@ -1,5 +1,5 @@
 ---
-apiVersion: image.toolkit.fluxcd.io/v1
+apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
   name: vikunja-helm
@@ -8,7 +8,7 @@ spec:
   image: ghcr.io/go-vikunja/helm-chart/vikunja
   interval: 5m0s
 ---
-apiVersion: image.toolkit.fluxcd.io/v1
+apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
   name: vikunja-helm
@@ -20,7 +20,7 @@ spec:
     semver:
       range: '>=1.0.0 <2.0.0'
 ---
-apiVersion: image.toolkit.fluxcd.io/v1
+apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
   name: vikunja
@@ -29,7 +29,7 @@ spec:
   image: docker.io/vikunja/vikunja
   interval: 5m0s
 ---
-apiVersion: image.toolkit.fluxcd.io/v1
+apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
   name: vikunja
