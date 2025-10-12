@@ -5,7 +5,7 @@ metadata:
   name: longhorn
   namespace: flux-system
 spec:
-  image: charts.longhorn.io
+  image: docker.io/longhornio/longhorn-manager
   interval: 5m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
