@@ -5,7 +5,7 @@ metadata:
   name: ingress-nginx
   namespace: flux-system
 spec:
-  image: ghrc.io/kubernetes/ingress-nginx
+  image: ghcr.io/kubernetes/ingress-nginx
   interval: 5m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
