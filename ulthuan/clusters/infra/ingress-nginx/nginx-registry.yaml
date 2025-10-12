@@ -5,7 +5,7 @@ metadata:
   name: ingress-nginx
   namespace: flux-system
 spec:
-  image: kubernetes.github.io/ingress-nginx
+  image: ghrc.io/kubernetes/ingress-nginx
   interval: 5m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
@@ -16,6 +16,8 @@ metadata:
 spec:
   imageRepositoryRef:
     name: ingress-nginx
+  filterTags:
+    pattern: 'helm-chart-.*'
   policy:
     semver:
       range: '>=4.0.0 <5.0.0'
