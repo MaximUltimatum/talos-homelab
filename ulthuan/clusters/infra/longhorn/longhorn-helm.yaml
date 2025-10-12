@@ -24,7 +24,7 @@ spec:
   chart:
     spec:
       chart: longhorn
-      version: "v1.8.2" # {"$imagepolicy": "flux-system:longhorn:tag"}
+      version: "v1.9.2" # {"$imagepolicy": "flux-system:longhorn:tag"}
       sourceRef:
         kind: HelmRepository
         name: longhorn-helm-repo
