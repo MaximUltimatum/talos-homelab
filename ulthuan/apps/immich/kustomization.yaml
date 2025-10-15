@@ -7,4 +7,3 @@ resources:
   - postgres-configmap.yaml
   - postgres-immich-clone.yaml
   - immich-sealed-secret.yaml
-  - ingress.yaml
