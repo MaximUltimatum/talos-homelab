@@ -23,7 +23,7 @@ spec:
   chart:
     spec:
       chart: immich
-      version: "0.9.2" # {"$imagepolicy": "flux-system:immich-helm:tag"}
+      version: "0.10.1" # {"$imagepolicy": "flux-system:immich-helm:tag"}
       sourceRef:
         kind: HelmRepository
         name: immich-helm-repo
@@ -41,7 +41,7 @@ spec:
             name: immich-insight-clearance
             key: postgres-password
     image:
-      tag: v2.0.1 # {"$imagepolicy": "flux-system:immich:tag"}
+      tag: v2.1.0 # {"$imagepolicy": "flux-system:immich:tag"}
     immich:
       persistence:
         library:
@@ -52,18 +52,24 @@ spec:
       ingress:
         main:
           enabled: true
-          ingressClassName: nginx
+          labels:
+            tailscale.com/proxy-class: "irish-eyes"
+          ingressClassName: tailscale
           annotations:
             # proxy-body-size is set to 0 to remove the body limit on file uploads
             nginx.ingress.kubernetes.io/proxy-body-size: "0"
           hosts:
-            - host: photos.maximstroud.de
+            - host: memories
               paths:
                 - path: "/"
+          defaultBackend:
+            service:
+              name: project-insight-server
+              port:
+                number: 2283
           tls:
             - hosts:
-                - photos.maximstroud.de
-              secretName: maximstroud.de-cert
+                - memories
     machine-learning:
       persistence:
         cache:
