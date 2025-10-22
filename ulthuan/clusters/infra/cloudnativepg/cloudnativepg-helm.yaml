@@ -21,7 +21,7 @@ spec:
   interval: 1m
   chart:
     spec:
-      chart: cnpg
+      chart: cloudnative-pg
       version: "v0.26.0" # {"$imagepolicy": "flux-system:cnpg:tag"}
       sourceRef:
         kind: HelmRepository
