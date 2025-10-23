@@ -60,7 +60,7 @@ spec:
               name: vikunja-credentials
               key: postgres-database
         VIKUNJA_DATABASE_DATABASE: vikunja
-        VIKUNJA_DATABASE_HOST: vikunja-vikunja-postgresql
+        VIKUNJA_DATABASE_HOST: cluster-vikunja-rw.vikunja.svc.cluster.local
         VIKUNJA_DEFAULTSETTINGS_EMAIL_REMINDERS_ENABLED: true
         VIKUNJA_DEFAULTSETTINGS_WEEK_START: 1
         VIKUNJA_DEFAULTSETTINGS_OVERDUE_TASKS_REMINDERS_TIME: 7:00
@@ -83,8 +83,7 @@ spec:
               key: smtp-password
         VIKUNJA_MAILER_FROMEMAIL: tasks@maximstroud.de
     postgresql:
-      auth:
-        existingSecret: vikunja-credentials
+      enabled: true
     typesense:
       enabled: true
       env:
