@@ -6,4 +6,5 @@ resources:
   - sealed-vikunja-credentials.yaml
   - sealed-vikunja-config.yaml
   - vikunja-ingress.yaml
+  - database.yaml
   - ../shared

@@ -1,0 +1,27 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cluster-vikunja
+spec:
+  instances: 1
+  bootstrap:
+    initdb:
+      database: vikunja
+      secret: vikunja-credentials
+      import:
+        type: microservice
+        databases:
+          - vikunja
+        source:
+          externalCluster: cluster-vikunja-legacy
+  storage:
+    size: 8Gi
+  externalClusters:
+    - name: cluster-vikunja-legacy
+      connectionParameters:
+        host: vikunja-vikunja-postgresql.vikunja.svc.cluster.local
+        user: vikunja
+        dbname: vikunja
+      password:
+        name: vikunja-credentials
+        key: password
