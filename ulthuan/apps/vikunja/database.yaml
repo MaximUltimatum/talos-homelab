@@ -6,6 +6,8 @@ spec:
   instances: 1
   bootstrap:
     initdb:
+      database: vikunja
+      secret: vikunja-credentials
       import:
         type: microservice
         databases:
