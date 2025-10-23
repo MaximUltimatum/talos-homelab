@@ -83,7 +83,7 @@ spec:
               key: smtp-password
         VIKUNJA_MAILER_FROMEMAIL: tasks@maximstroud.de
     postgresql:
-      enabled: true
+      enabled: false
     typesense:
       enabled: true
       env:
