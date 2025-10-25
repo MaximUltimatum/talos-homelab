@@ -45,13 +45,13 @@ spec:
               - secretRef:
                   name: zipline-credentials
 
-
     service:
       main:
         controller: main
         ports:
           http:
             port: 3000
+            targetPort: 3000
 
     ingress:
       main:
