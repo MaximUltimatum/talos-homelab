@@ -58,7 +58,7 @@ spec:
         enabled: true
         className: nginx
         hosts:
-          - host: &hostname zipline.maximstroud.de
+          - host: &hostname share.maximstroud.de
             paths:
               - path: /
                 pathType: Prefix
