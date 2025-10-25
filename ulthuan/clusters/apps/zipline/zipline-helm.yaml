@@ -42,7 +42,8 @@ spec:
               tag: 4.3.2
               pullPolicy: IfNotPresent
             envFrom:
-              - secretRef: zipline-credentials
+              - secretRef:
+                  name: zipline-credentials
             probes:
               liveness:
               enabled: true
