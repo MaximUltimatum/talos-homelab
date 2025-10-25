@@ -1,0 +1,13 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cluster-zipline
+spec:
+  instances: 1
+  bootstrap:
+    initdb:
+      database: zipline
+      secret:
+        name: zipline-credentials
+  storage:
+    size: 10Gi

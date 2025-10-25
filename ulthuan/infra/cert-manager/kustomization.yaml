@@ -8,3 +8,4 @@ resources:
 - media-cert.yaml
 - journal-cert.yaml
 - vikunja-cert.yaml
+- zipline-cert.yaml
