@@ -44,21 +44,6 @@ spec:
             envFrom:
               - secretRef:
                   name: zipline-credentials
-            probes:
-              liveness:
-              enabled: true
-              custom: true
-              type: TCP
-              spec:
-                initialDelaySeconds: 0
-                periodSeconds: 15
-                timeoutSeconds: 2
-                failureThreshold: 2
-                exec:
-                  - wget
-                  - -q
-                  - --spider
-                  - http://localhost:3000/api/healthcheck
 
 
     service:
