@@ -24,7 +24,7 @@ spec:
   targetNamespace: media
   values:
     image:
-      tag: "10.11.0" # {"$imagepolicy": "flux-system:jellyfin:tag"}
+      tag: "10.11.1" # {"$imagepolicy": "flux-system:jellyfin:tag"}
     ingress:
       enabled: true
       className: tailscale
