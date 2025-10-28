@@ -39,7 +39,7 @@ spec:
             env:
               PUBLIC_URL: "https://travel-backend.maximstroud.de"
               FRONTEND_URL: &frontend-url "https://travel.maximstroud.de"
-              CSRF_TRUSTED_ORIGINS: "https://travel-backend.maximstroud.de,https://travel.maximstroud.de"
+              CSRF_TRUSTED_ORIGINS: "https://travel-backend.maximstroud.de,https://travel.maximstroud.de,http://travel-travel-backend.travel.svc.cluster.local:80"
               DEBUG: True
               DJANGO_ADMIN_USERNAME: admin
               # EMAIL_BACKEND: email
@@ -58,7 +58,7 @@ spec:
               tag: *version
             envFrom: *envFrom
             env:
-              PUBLIC_SERVER_URL: "https://travel-backend.maximstroud.de"
+              PUBLIC_SERVER_URL: "http://travel-travel-backend.travel.svc.cluster.local:80"
               ORIGIN: *frontend-url
 
     service:
