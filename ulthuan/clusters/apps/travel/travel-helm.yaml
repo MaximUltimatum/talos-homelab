@@ -47,16 +47,16 @@ spec:
               # EMAIL_PORT: 2525
               # EMAIL_USE_TLS: False
               # DEFAULT_FROM_EMAIL: ${SECRET_SMTP_SENDER}
-            envFrom:
-              - secretRef: travel-credentials
+            envFrom: &envFrom
+              - secretRef:
+                  name: travel-credentials
       frontend:
         containers:
           app:
             image:
               repository: ghcr.io/seanmorley15/adventurelog-frontend
               tag: *version
-            envFrom:
-              - secretRef: travel-credentials
+            envFrom: *envFrom
             env:
               PUBLIC_SERVER_URL: *backend-url
               ORIGIN: *frontend-url
