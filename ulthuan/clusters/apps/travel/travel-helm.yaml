@@ -42,6 +42,7 @@ spec:
               CSRF_TRUSTED_ORIGINS: "https://travel-backend.maximstroud.de,https://travel.maximstroud.de,http://travel-travel-backend.travel.svc.cluster.local:80"
               DEBUG: True
               DJANGO_ADMIN_USERNAME: admin
+              PGHOST: "cluster-travel-rw.travel.svc.cluster.local"
               # EMAIL_BACKEND: email
               # EMAIL_HOST: smtp-relay.default.svc.cluster.local
               # EMAIL_PORT: 2525
