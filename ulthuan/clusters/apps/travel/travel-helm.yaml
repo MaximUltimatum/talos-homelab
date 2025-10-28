@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: ghcr.io/seanmorley15/adventurelog-backend
-              tag: &version 0.11.0
+              tag: &version v0.11.0
             env:
               PUBLIC_URL: &backend-url "https://travel-backend.maximstroud.de"
               FRONTEND_URL: &frontend-url "https://travel.maximstroud.de"
