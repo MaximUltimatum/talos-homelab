@@ -47,7 +47,8 @@ spec:
               # EMAIL_PORT: 2525
               # EMAIL_USE_TLS: False
               # DEFAULT_FROM_EMAIL: ${SECRET_SMTP_SENDER}
-            envFrom: *envFrom
+            envFrom: &envFrom
+              - secretRef: travel-credentials
       frontend:
         containers:
           app:
