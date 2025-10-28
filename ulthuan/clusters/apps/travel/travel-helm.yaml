@@ -58,7 +58,7 @@ spec:
               tag: *version
             envFrom: *envFrom
             env:
-              PUBLIC_SERVER_URL: "http://travel-travel-backend.travel.svc.cluster.local:80"
+              PUBLIC_SERVER_URL: "https://travel-backend.maximstroud.de"
               ORIGIN: *frontend-url
 
     service:
