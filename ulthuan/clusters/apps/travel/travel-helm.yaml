@@ -20,8 +20,8 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app travel
-  namespace: *app
+  name: &app "travel"
+  namespace: "travel"
 spec:
   interval: 1h
   chartRef:
@@ -37,9 +37,9 @@ spec:
               repository: ghcr.io/seanmorley15/adventurelog-backend
               tag: &version 0.11.0
             env:
-              PUBLIC_URL: &backend-url https://travel-backend.maximstroud.de
-              FRONTEND_URL: &frontend-url https://travel.maximstroud.de
-              CSRF_TRUSTED_ORIGINS: *backend-url,*frontend-url
+              PUBLIC_URL: &backend-url "https://travel-backend.maximstroud.de"
+              FRONTEND_URL: &frontend-url "https://travel.maximstroud.de"
+              CSRF_TRUSTED_ORIGINS: "https://travel-backend.maximstroud.de,https://travel.maximstroud.de"
               DEBUG: True
               DJANGO_ADMIN_USERNAME: admin
               # EMAIL_BACKEND: email
@@ -97,7 +97,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  identifier: frontend
+                  identifier: backend
                   port: http
         tls:
           - hosts:
