@@ -9,3 +9,4 @@ resources:
 - journal-cert.yaml
 - vikunja-cert.yaml
 - zipline-cert.yaml
+- travel-cert.yaml
