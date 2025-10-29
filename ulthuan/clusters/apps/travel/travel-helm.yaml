@@ -1,0 +1,112 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: travel
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: travel
+  namespace: travel
+spec:
+  interval: 15m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 4.2.0
+  url: oci://ghcr.io/bjw-s-labs/helm/app-template
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app "travel"
+  namespace: "travel"
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  targetNamespace: *app
+  values:
+    controllers:
+      backend:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/seanmorley15/adventurelog-backend
+              tag: &version v0.11.0
+            env:
+              PUBLIC_URL: "https://travel-backend.maximstroud.de"
+              FRONTEND_URL: &frontend-url "https://travel.maximstroud.de"
+              CSRF_TRUSTED_ORIGINS: "https://travel-backend.maximstroud.de,https://travel.maximstroud.de,http://travel-travel-backend.travel.svc.cluster.local:80"
+              DEBUG: True
+              DJANGO_ADMIN_USERNAME: admin
+              PGHOST: "cluster-travel-rw.travel.svc.cluster.local"
+              # EMAIL_BACKEND: email
+              # EMAIL_HOST: smtp-relay.default.svc.cluster.local
+              # EMAIL_PORT: 2525
+              # EMAIL_USE_TLS: False
+              # DEFAULT_FROM_EMAIL: ${SECRET_SMTP_SENDER}
+            envFrom: &envFrom
+              - secretRef:
+                  name: travel-creds
+      frontend:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/seanmorley15/adventurelog-frontend
+              tag: *version
+            envFrom: *envFrom
+            env:
+              PUBLIC_SERVER_URL: "http://travel-travel-backend.travel.svc.cluster.local:80"
+              ORIGIN: *frontend-url
+
+    service:
+      frontend:
+        controller: frontend
+        ports:
+          http:
+            port: 3000
+      backend:
+        controller: backend
+        ports:
+          http:
+            port: 80
+
+    ingress:
+      frontend:
+        className: nginx
+        hosts:
+          - host: &hostname travel.maximstroud.de
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: frontend
+                  port: http
+        tls:
+          - hosts:
+              - *hostname
+            secretName: maximstroud.de-cert
+      backend:
+        className: nginx
+        hosts:
+          - host: &hostname-backend travel-backend.maximstroud.de
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: backend
+                  port: http
+        tls:
+          - hosts:
+              - *hostname-backend
+            secretName: maximstroud.de-cert
+
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 5Gi
