@@ -13,4 +13,4 @@ spec:
       postInitSQL:
         - "ALTER USER adventure CREATEDB SUPERUSER;"
   storage:
-    size: 5Gi
+    size: 30Gi

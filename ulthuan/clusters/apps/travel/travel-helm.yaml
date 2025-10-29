@@ -63,6 +63,7 @@ spec:
             env:
               PUBLIC_SERVER_URL: "http://travel-travel-backend.travel.svc.cluster.local:80"
               ORIGIN: *frontend-url
+              BODY_SIZE_LIMIT: "5073741824"
 
     service:
       frontend:
