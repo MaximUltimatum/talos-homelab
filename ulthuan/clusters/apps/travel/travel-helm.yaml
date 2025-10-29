@@ -80,6 +80,8 @@ spec:
     ingress:
       frontend:
         className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
         hosts:
           - host: &hostname travel.maximstroud.de
             paths:
@@ -94,6 +96,8 @@ spec:
             secretName: maximstroud.de-cert
       backend:
         className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
         hosts:
           - host: &hostname-backend travel-backend.maximstroud.de
             paths:
