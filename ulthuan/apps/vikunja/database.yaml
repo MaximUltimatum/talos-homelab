@@ -9,20 +9,5 @@ spec:
       database: vikunja
       secret:
         name: vikunja-credentials
-      import:
-        type: microservice
-        databases:
-          - vikunja
-        source:
-          externalCluster: cluster-vikunja-legacy
   storage:
     size: 8Gi
-  externalClusters:
-    - name: cluster-vikunja-legacy
-      connectionParameters:
-        host: vikunja-vikunja-postgresql.vikunja.svc.cluster.local
-        user: vikunja
-        dbname: vikunja
-      password:
-        name: vikunja-credentials
-        key: password
