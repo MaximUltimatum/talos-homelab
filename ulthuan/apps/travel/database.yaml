@@ -9,6 +9,6 @@ spec:
     initdb:
       database: adventurelog
       secret:
-        name: travel-credentials
+        name: travel-creds
   storage:
     size: 5Gi
