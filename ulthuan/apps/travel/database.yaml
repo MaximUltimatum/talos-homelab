@@ -10,5 +10,7 @@ spec:
       database: adventure
       secret:
         name: travel-creds
+      postInitSQL:
+        - "ALTER USER adventure CREATEDB SUPERUSER;"
   storage:
     size: 5Gi
