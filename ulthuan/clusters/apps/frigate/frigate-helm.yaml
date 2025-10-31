@@ -34,6 +34,8 @@ spec:
       TZ: CST
     envFromSecrets:
       - frigate-rstp-credentials
+    securityContext:
+      privileged: true
     coral:
       enabled: true
       hostPath: /dev/bus/usb/002/003
@@ -152,12 +154,5 @@ spec:
         enabled: true
         size: 300Gi
         skipuninstall: true
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                    - coral
+    nodeSelector:
+      app: coral
