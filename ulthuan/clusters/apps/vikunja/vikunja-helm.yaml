@@ -42,7 +42,7 @@ spec:
           enabled: false # set in resources
       env:
         VIKUNJA_SERVICE_PUBLICURL: "https://tasks.maximstroud.de"
-        VIKUNJA_TYPESENSE_URL: http://vikunja-vikunja-typesense.vikunja.svc.cluster.local:8108
+        #VIKUNJA_TYPESENSE_URL: http://vikunja-vikunja-typesense.vikunja.svc.cluster.local:8108
         VIKUNJA_DATABASE_TYPE: "postgres"
         VIKUNJA_DATABASE_USER:
           valueFrom:
@@ -85,7 +85,7 @@ spec:
     postgresql:
       enabled: false
     typesense:
-      enabled: true
+      enabled: false
       env:
         TYPESENSE_DATA_DIR: /data
         TYPESENSE_API_KEY: typesense
