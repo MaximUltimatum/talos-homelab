@@ -86,7 +86,7 @@ spec:
     postgresql:
       enabled: false
     typesense:
-      enabled: false
+      enabled: true
       env:
         TYPESENSE_DATA_DIR: /data
         TYPESENSE_API_KEY: typesense
