@@ -86,7 +86,7 @@ spec:
     postgresql:
       enabled: false
     typesense:
-      enabled: true # typesense appears to be broken in 1.0 rc2 - try again once it's GA
+      enabled: false # typesense integration appears to be broken in 1.0 rc2 - try again once it's GA
       env:
         TYPESENSE_DATA_DIR: /data
         TYPESENSE_API_KEY: typesense
