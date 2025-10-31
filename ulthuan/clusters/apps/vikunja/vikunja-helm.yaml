@@ -36,7 +36,7 @@ spec:
           name: vikunja-config
       image:
         repository: vikunja/vikunja
-        tag: 1.0.0-rc2 # {"$imagepolicy": "flux-system:vikunja:tag"}
+        tag: unstable # {"$imagepolicy": "flux-system:vikunja:tag"}
       ingress:
         main:
           enabled: false # set in resources
@@ -86,7 +86,7 @@ spec:
     postgresql:
       enabled: false
     typesense:
-      enabled: true
+      enabled: true # typesense appears to be broken in 1.0 rc2 - try again once it's GA
       env:
         TYPESENSE_DATA_DIR: /data
         TYPESENSE_API_KEY: typesense
