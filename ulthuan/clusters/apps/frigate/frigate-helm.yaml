@@ -1,0 +1,163 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: frigate
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: frigate
+  namespace: frigate
+spec:
+  interval: 10m # How often to check for updates
+  url: "https://blakeblackshear.github.io/blakeshome-charts"
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: zipline
+  namespace: zipline
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: frigate
+      version: 7.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: frigate
+  targetNamespace: zipline
+  values:
+    image:
+      tag: 0.15.0 # {"$imagepolicy": "flux-system:frigate:tag"}
+    env:
+      TZ: CST
+    envFromSecrets:
+      - frigate-rstp-credentials
+    coral:
+      enabled: true
+      hostPath: /dev/bus/usb/002/003
+    # -- frigate configuration - see [Docs](https://docs.frigate.video/configuration/index) for more info
+    config: |
+      mqtt:
+        # Required: host name
+        host: 192.168.42.1
+        # Optional: port (default: shown below)
+        port: 1883
+        # Optional: topic prefix (default: shown below)
+        # WARNING: must be unique if you are running multiple instances
+        topic_prefix: frigate
+        # Optional: client id (default: shown below)
+        # WARNING: must be unique if you are running multiple instances
+        client_id: frigate
+        # Optional: user
+        # user: mqtt_user
+        # Optional: password
+        # NOTE: Environment variables that begin with 'FRIGATE_' may be referenced in {}.
+        #       eg. password: '{FRIGATE_MQTT_PASSWORD}'
+        # password: password
+        # Optional: interval in seconds for publishing stats (default: shown below)
+        stats_interval: 60
+
+      detectors:
+        coral:
+          type: edgetpu
+          device: usb
+        # cpu1:
+        #   type: cpu
+      go2rtc:
+        streams:
+          front_door:
+            - rtsp://{FRIGATE_RSTP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.4.84:554/cam/realmonitor?channel=1&subtype=0
+          back_door:
+            - rtsp://{FRIGATE_RSTP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.4.85:554/cam/realmonitor?channel=1&subtype=0
+
+
+      cameras:
+        # Name of your camera
+        front_door:
+          ffmpeg:
+            inputs:
+              - path: rtsp://{FRIGATE_RSTP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.4.84:554/cam/realmonitor?channel=1&subtype=0
+                roles:
+                  - detect
+                  - record
+          detect:
+            enabled: true
+            width: 1280
+            height: 720
+          snapshots:
+            enabled: true
+          objects:
+            track:
+              - person
+              - dog
+              - cat
+              - bicycle
+              - motorcycle
+              - bird
+              - cell phone
+              - baseball bat
+          # fps: 5
+        back_door:
+          ffmpeg:
+            inputs:
+              - path: rtsp://{FRIGATE_RSTP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.4.85:554/cam/realmonitor?channel=1&subtype=0
+                roles:
+                  - detect
+                  - record
+          detect:
+            enabled: true
+            width: 1280
+            height: 720
+          record:
+            enabled: True
+            retain:
+              days: 3
+              mode: all
+            alerts:
+              retain:
+                days: 30
+                mode: motion
+            detections:
+              retain:
+                days: 30
+                mode: motion
+          snapshots:
+            enabled: true
+          objects:
+            track:
+              - person
+              - dog
+              - cat
+              - bicycle
+              - motorcycle
+              - bird
+              - cell phone
+              - baseball bat
+          # fps: 5
+
+    service:
+      type: LoadBalancer
+      port: 5000
+      annotations:
+        tailscale.com/hostname: pierce
+      labels:
+        tailscale.com/proxy-class: "irish-eyes"
+    persistence:
+      config:
+        enabled: true
+        size: 100Mi
+      media:
+        enabled: true
+        size: 300Gi
+        skipuninstall: true
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - coral

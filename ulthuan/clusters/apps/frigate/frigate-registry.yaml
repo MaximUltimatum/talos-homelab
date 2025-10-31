@@ -1,0 +1,21 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: frigate
+  namespace: flux-system
+spec:
+  image: ghcr.io/blakeblackshear/frigate
+  interval: 5m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: frigate
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: frigate
+  policy:
+    semver:
+      range: '>=0.0.0 <1.0.0'
