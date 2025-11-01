@@ -52,6 +52,8 @@ spec:
               value: "McDermott Cookbook"
             - name: SMTP_FROM_EMAIL
               value: recipes@maximstroud.de
+            - name: ALLOW_PASSWORD_LOGIN
+              value: "false"
           envFrom:
             - secretRef:
                 name: mealie-oidc-secret
