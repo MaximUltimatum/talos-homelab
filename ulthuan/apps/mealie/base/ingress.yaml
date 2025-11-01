@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mealie-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: recipes.maximstroud.de
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mealie
+            port:
+              number: 9000
+  tls:
+    - hosts:
+        - tasks.maximstroud.de
+      secretName: maximstroud.de-cert

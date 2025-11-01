@@ -52,6 +52,9 @@ spec:
               value: "McDermott Cookbook"
             - name: SMTP_FROM_EMAIL
               value: recipes@maximstroud.de
+          envFrom:
+            - secretRef:
+                name: mealie-oidc-secret
       restartPolicy: Always
 ---
 apiVersion: v1
