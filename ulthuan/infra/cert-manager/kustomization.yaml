@@ -10,3 +10,4 @@ resources:
 - vikunja-cert.yaml
 - zipline-cert.yaml
 - travel-cert.yaml
+- mealie-cert.yml
