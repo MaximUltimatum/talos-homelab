@@ -98,5 +98,5 @@ spec:
           size: 2Gi
       image:
         repository: docker.io/typesense/typesense
-        tag: 0.25.1
+        tag: 0.25.2
         pullPolicy: IfNotPresent
