@@ -4,9 +4,13 @@
     "config:recommended"
   ],
   "kubernetes": {
-    "managerFilePatterns": [
-      "/\\.yaml$/",
-      "/\\.yml$/"
+    "fileMatch": [
+      "\\.yaml$",
+      "\\.yml$"
+    ],
+    "ignorePaths": [
+      "**/*-helm.yaml",
+      "**/*-helm.yml"
     ]
   },
   "helm-values": {
