@@ -29,7 +29,7 @@ spec:
           emptyDir: {}
       initContainers:
         - name: render-config
-          image: alpine:3.20
+          image: alpine:3.22
           env:
             - name: SMTP_HOST
               valueFrom:
