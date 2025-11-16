@@ -10,6 +10,6 @@
     ]
   },
   "helm-values": {
-    "fileMatch": ["\\.yaml$", "\\.yml$"]
+    "fileMatch": [".*-helm\\.yaml$", ".*-helm\\.yml$"]
   }
 }
