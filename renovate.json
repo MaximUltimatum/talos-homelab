@@ -7,10 +7,6 @@
     "managerFilePatterns": [
       "/\\.yaml$/",
       "/\\.yml$/"
-    ],
-    "ignorePaths": [
-      "**/*-helm.yaml",
-      "**/*-helm.yml"
     ]
   },
   "helm-values": {
