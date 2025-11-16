@@ -8,5 +8,8 @@
       "/\\.yaml$/",
       "/\\.yml$/"
     ]
+  },
+  "helm-values": {
+    "fileMatch": ["\\.yaml$", "\\.yml$"]
   }
 }
