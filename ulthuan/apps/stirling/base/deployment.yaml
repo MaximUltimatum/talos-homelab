@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: stirling
-          image: ghcr.io/stirling-tools/stirling-pdf:1.5.0 # {"$imagepolicy": "flux-system:stirling"}
+          image: ghcr.io/stirling-tools/stirling-pdf:1.5.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080

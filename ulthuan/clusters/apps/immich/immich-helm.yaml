@@ -23,7 +23,7 @@ spec:
   chart:
     spec:
       chart: immich
-      version: "0.10.1" # {"$imagepolicy": "flux-system:immich-helm:tag"}
+      version: "0.10.1"
       sourceRef:
         kind: HelmRepository
         name: immich-helm-repo
@@ -41,7 +41,7 @@ spec:
             name: immich-insight-clearance
             key: postgres-password
     image:
-      tag: v2.2.3 # {"$imagepolicy": "flux-system:immich:tag"}
+      tag: v2.2.3
     immich:
       persistence:
         library:

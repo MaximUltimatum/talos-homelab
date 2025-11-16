@@ -33,7 +33,7 @@ spec:
                       - alithanar
       containers:
         - name: qbittorrent
-          image: ghcr.io/linuxserver/qbittorrent:5.1.2 # {"$imagepolicy": "flux-system:wheeler"}
+          image: ghcr.io/linuxserver/qbittorrent:5.1.2
           imagePullPolicy: IfNotPresent
           env:
             - name: DOCKER_MODS
