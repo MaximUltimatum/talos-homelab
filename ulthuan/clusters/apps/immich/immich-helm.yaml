@@ -23,32 +23,43 @@ spec:
   chart:
     spec:
       chart: immich
-      version: "0.10.1"
+      version: "0.10.3"
       sourceRef:
         kind: HelmRepository
         name: immich-helm-repo
   targetNamespace: journal
   values:
-    env:
-      REDIS_HOSTNAME: '{{ printf "%s-redis-master" .Release.Name }}'
-      DB_HOSTNAME: "immich-labmouse"
-      DB_USERNAME: "immich"
-      DB_DATABASE_NAME: "immich"
-      IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
-      DB_PASSWORD:
-        valueFrom:
-          secretKeyRef:
-            name: immich-insight-clearance
-            key: postgres-password
-    image:
-      tag: v2.2.3
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              tag: v2.0.0
+            env:
+              REDIS_HOSTNAME: '{{ printf "%s-redis-master" .Release.Name }}'
+              DB_HOSTNAME: "immich-labmouse"
+              DB_USERNAME: "immich"
+              DB_DATABASE_NAME: "immich"
+              IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+              DB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-insight-clearance
+                    key: postgres-password
     immich:
       persistence:
         library:
           existingClaim: immich-library-project-insight
-    redis:
+    valkey:
       enabled: true
     server:
+      controllers:
+        main:
+          containers:
+            main:
+              image:
+                repository: ghcr.io/immich-app/immich-server
+                tag: v2.2.3
       ingress:
         main:
           enabled: true
@@ -73,4 +84,4 @@ spec:
     machine-learning:
       persistence:
         cache:
-          type: pvc
+          type: persistentVolumeClaim
