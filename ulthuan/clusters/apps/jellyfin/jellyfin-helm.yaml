@@ -24,6 +24,7 @@ spec:
   targetNamespace: media
   values:
     image:
+      repository: docker.io/jellyfin/jellyfin
       tag: "10.11.2"
     ingress:
       enabled: true

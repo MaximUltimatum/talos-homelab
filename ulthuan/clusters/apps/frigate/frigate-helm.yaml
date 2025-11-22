@@ -29,6 +29,7 @@ spec:
   targetNamespace: frigate
   values:
     image:
+      repository: ghcr.io/blakeblackshear/frigate
       tag: 0.15.0
     env:
       TZ: CST
