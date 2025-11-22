@@ -73,6 +73,7 @@ spec:
           tls:
             - hosts:
                 - photos.maximstroud.de
+              secretName: maximstroud.de-cert
     machine-learning:
       persistence:
         cache:
