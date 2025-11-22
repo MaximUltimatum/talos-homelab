@@ -34,7 +34,7 @@ spec:
         containers:
           main:
             image:
-              tag: v2.0.0
+              tag: v2.2.3
             env:
               REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
               DB_HOSTNAME: "immich-labmouse"
@@ -58,8 +58,7 @@ spec:
           containers:
             main:
               image:
-                repository: ghcr.io/immich-app/immich-server
-                tag: v2.2.3
+                repository: ghcr.io/immich-app/immich-server # leave here for renovate to see
       ingress:
         main:
           enabled: true
