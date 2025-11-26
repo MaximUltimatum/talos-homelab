@@ -65,9 +65,11 @@ spec:
         stats_interval: 60
 
       detectors:
-        coral:
-          type: edgetpu
-          device: usb
+        onnx_0:
+          type: onnx
+        #coral: # coral is borked on my talos setup
+        #  type: edgetpu
+        #  device: usb
         # cpu1:
         #   type: cpu
       go2rtc:
@@ -158,4 +160,4 @@ spec:
         size: 300Gi
         skipuninstall: true
     nodeSelector:
-      app: coral
+      has: gpu
