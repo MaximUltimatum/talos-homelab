@@ -39,9 +39,6 @@ spec:
       - frigate-rstp-credentials
     securityContext:
       privileged: true
-    coral:
-      enabled: true
-      hostPath: /dev/bus/usb/002/003
     # -- frigate configuration - see [Docs](https://docs.frigate.video/configuration/index) for more info
     config: |
       mqtt:
@@ -65,9 +62,8 @@ spec:
         stats_interval: 60
 
       detectors:
-        tensorrt:
-          type: tensorrt
-          device: 0
+        onnx_0:
+          type: onnx
         #coral: # coral is borked on my talos setup
         #  type: edgetpu
         #  device: usb
