@@ -41,34 +41,9 @@ spec:
       privileged: true
     # -- frigate configuration - see [Docs](https://docs.frigate.video/configuration/index) for more info
     config: |
-      mqtt:
-        # Required: host name
-        host: 192.168.42.1
-        # Optional: port (default: shown below)
-        port: 1883
-        # Optional: topic prefix (default: shown below)
-        # WARNING: must be unique if you are running multiple instances
-        topic_prefix: frigate
-        # Optional: client id (default: shown below)
-        # WARNING: must be unique if you are running multiple instances
-        client_id: frigate
-        # Optional: user
-        # user: mqtt_user
-        # Optional: password
-        # NOTE: Environment variables that begin with 'FRIGATE_' may be referenced in {}.
-        #       eg. password: '{FRIGATE_MQTT_PASSWORD}'
-        # password: password
-        # Optional: interval in seconds for publishing stats (default: shown below)
-        stats_interval: 60
-
       detectors:
         onnx:
           type: onnx
-        #coral: # coral is borked on my talos setup
-        #  type: edgetpu
-        #  device: usb
-        # cpu1:
-        #   type: cpu
       model:
         model_type: yolox
         width: 320 # <--- should match whatever was set in notebook
@@ -77,17 +52,42 @@ spec:
         input_dtype: float_denorm
         path: /config/yolov9-t-320.onnx
         labelmap_path: /labelmap/coco-80.txt
-      go2rtc:
-        streams:
-          front_door:
-            - rtsp://{FRIGATE_RSTP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.4.84:554/cam/realmonitor?channel=1&subtype=0
-          back_door:
-            - rtsp://{FRIGATE_RSTP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.4.85:554/cam/realmonitor?channel=1&subtype=0
 
+      objects:
+        track:
+          - person
+          - dog
+          - cat
+          - bicycle
+          - motorcycle
+          - bird
+          - cell phone
+          - baseball bat
+          
+      record:
+        enabled: True
+        retain:
+          days: 3
+          mode: all
+        alerts:
+          retain:
+            days: 30
+            mode: motion
+        detections:
+          retain:
+            days: 30
+            mode: motion
+
+      face_recognition:
+        enabled: True
+
+      snapshots:
+        enabled: true
+        retain:
+        default: 30
 
       cameras:
-        # Name of your camera
-        front_door:
+        front_door: # camera name
           ffmpeg:
             inputs:
               - path: rtsp://{FRIGATE_RSTP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.4.84:554/cam/realmonitor?channel=1&subtype=0
@@ -98,18 +98,6 @@ spec:
             enabled: true
             width: 1280
             height: 720
-          snapshots:
-            enabled: true
-          objects:
-            track:
-              - person
-              - dog
-              - cat
-              - bicycle
-              - motorcycle
-              - bird
-              - cell phone
-              - baseball bat
           # fps: 5
         back_door:
           ffmpeg:
@@ -122,31 +110,6 @@ spec:
             enabled: true
             width: 1280
             height: 720
-          record:
-            enabled: True
-            retain:
-              days: 3
-              mode: all
-            alerts:
-              retain:
-                days: 30
-                mode: motion
-            detections:
-              retain:
-                days: 30
-                mode: motion
-          snapshots:
-            enabled: true
-          objects:
-            track:
-              - person
-              - dog
-              - cat
-              - bicycle
-              - motorcycle
-              - bird
-              - cell phone
-              - baseball bat
           # fps: 5
 
     service:
