@@ -32,7 +32,7 @@ spec:
   values:
     image:
       repository: ghcr.io/blakeblackshear/frigate
-      tag: 0.15.0
+      tag: 0.15.0-tensorrt
     env:
       TZ: CST
     envFromSecrets:
@@ -65,8 +65,9 @@ spec:
         stats_interval: 60
 
       detectors:
-        onnx_0:
-          type: onnx
+        tensorrt:
+          type: tensorrt
+          device: 0
         #coral: # coral is borked on my talos setup
         #  type: edgetpu
         #  device: usb
@@ -159,5 +160,8 @@ spec:
         enabled: true
         size: 300Gi
         skipuninstall: true
+    resources:
+      limits:
+        nvidia.com/gpu: "1"
     nodeSelector:
       has: gpu
