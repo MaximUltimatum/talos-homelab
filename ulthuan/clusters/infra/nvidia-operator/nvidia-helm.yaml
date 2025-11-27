@@ -1,0 +1,25 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: nvdp-repo
+  namespace: nvidia-system
+spec:
+  interval: 10m
+  url: "https://nvidia.github.io/k8s-device-plugin"
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nvidia-device-plugin
+  namespace: nvidia-system
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: nvidia-device-plugin
+      sourceRef:
+        kind: HelmRepository
+        name: nvdp-repo
+  targetNamespace: nvidia-system
+  values:
+    runtimeClassName: nvidia
