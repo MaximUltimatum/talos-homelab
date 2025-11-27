@@ -160,8 +160,5 @@ spec:
         enabled: true
         size: 300Gi
         skipuninstall: true
-    resources:
-      limits:
-        nvidia.com/gpu: "1"
     nodeSelector:
       has: gpu
