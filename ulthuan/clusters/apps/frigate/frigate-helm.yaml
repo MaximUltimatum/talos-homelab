@@ -70,11 +70,11 @@ spec:
         # cpu1:
         #   type: cpu
       model:
-        model_type: yolonas
+        model_type: yolox
         width: 320 # <--- should match whatever was set in notebook
         height: 320 # <--- should match whatever was set in notebook
-        input_pixel_format: bgr
         input_tensor: nchw
+        input_dtype: float_denorm
         path: /config/yolov9-t-320.onnx
         labelmap_path: /labelmap/coco-80.txt
       go2rtc:
