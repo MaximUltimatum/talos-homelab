@@ -62,13 +62,21 @@ spec:
         stats_interval: 60
 
       detectors:
-        onnx_0:
+        onnx:
           type: onnx
         #coral: # coral is borked on my talos setup
         #  type: edgetpu
         #  device: usb
         # cpu1:
         #   type: cpu
+      model:
+        model_type: yolonas
+        width: 320 # <--- should match whatever was set in notebook
+        height: 320 # <--- should match whatever was set in notebook
+        input_pixel_format: bgr
+        input_tensor: nchw
+        path: /config/yolov9-t-320.onnx
+        labelmap_path: /labelmap/coco-80.txt
       go2rtc:
         streams:
           front_door:
