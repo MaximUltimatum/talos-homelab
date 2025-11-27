@@ -32,7 +32,7 @@ spec:
   values:
     image:
       repository: ghcr.io/blakeblackshear/frigate
-      tag: 0.15.0-tensorrt
+      tag: 0.16.2-tensorrt
     env:
       TZ: CST
     envFromSecrets:
