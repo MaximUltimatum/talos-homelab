@@ -118,4 +118,4 @@ spec:
         accessMode: ReadWriteOnce
         size: 50Gi
         globalMounts:
-          - path: /media/code
+          - path: /code/media
