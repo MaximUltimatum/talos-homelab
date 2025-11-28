@@ -81,7 +81,6 @@ spec:
           - motorcycle
           - bird
           - cell phone
-          - baseball bat
           
       record:
         enabled: True
