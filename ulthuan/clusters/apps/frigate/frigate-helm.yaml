@@ -64,7 +64,7 @@ spec:
         onnx:
           type: onnx
       model:
-        model_type: yolox
+        model_type: yolo-generic
         width: 320 # <--- should match whatever was set in notebook
         height: 320 # <--- should match whatever was set in notebook
         input_tensor: nchw
