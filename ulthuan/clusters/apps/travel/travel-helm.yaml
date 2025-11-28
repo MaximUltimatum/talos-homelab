@@ -112,8 +112,10 @@ spec:
             secretName: maximstroud.de-cert
 
     persistence:
-      config:
+      media:
         enabled: true
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
-        size: 5Gi
+        size: 50Gi
+        globalMounts:
+          - path: /media/code
