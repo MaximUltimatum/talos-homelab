@@ -64,23 +64,27 @@ spec:
         onnx:
           type: onnx
       model:
-        model_type: yolo-generic
+        model_type: yolonas
         width: 320 # <--- should match whatever was set in notebook
         height: 320 # <--- should match whatever was set in notebook
+        input_pixel_format: bgr
         input_tensor: nchw
-        input_dtype: float_denorm
-        path: /config/yolov9-t-320.onnx
+        path: "plus://0a01efc8a5df1c019c5278953c8d9b39"
         labelmap_path: /labelmap/coco-80.txt
 
       objects:
         track:
           - person
+          - face
           - dog
           - cat
           - bicycle
           - motorcycle
-          - bird
-          - cell phone
+          - amazon
+          - usps
+          - ups
+          - fedex
+          - package
           
       record:
         enabled: True
