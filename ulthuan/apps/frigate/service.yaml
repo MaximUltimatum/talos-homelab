@@ -10,7 +10,7 @@ spec:
   type: LoadBalancer
   loadBalancerClass: tailscale
   selector:
-│   app.kubernetes.io/name: frigate
+    app.kubernetes.io/name: frigate
   ports:
   - name: http
     port: 80
