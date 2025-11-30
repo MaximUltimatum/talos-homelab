@@ -99,15 +99,3 @@ spec:
         size: 50Gi
         globalMounts:
           - path: /workspace/ComfyUI/output
-
-      config:
-        type: configMap
-        accessMode: ReadWriteOnce
-        name: comfyui-configmap
-        size: 100Mi
-        advancedMounts:
-          comfyui:
-            app:
-              - path: /workspace/ComfyUI/custom_nodes/ComfyUI-Manager/config.ini
-                subPath: config.ini
-                readOnly: true
