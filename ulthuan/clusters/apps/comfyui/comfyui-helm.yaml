@@ -68,7 +68,7 @@ spec:
             port: &httpPort 8188
 
     ingress:
-      comfyui:
+      app:
         enabled: true
         className: tailscale
         annotations:
@@ -92,7 +92,6 @@ spec:
         size: 50Gi
         globalMounts:
           - path: /workspace
-
       output:
         enabled: true
         type: persistentVolumeClaim
