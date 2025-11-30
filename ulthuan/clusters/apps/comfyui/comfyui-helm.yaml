@@ -68,36 +68,42 @@ spec:
             port: &httpPort 8188
 
     ingress:
-      enabled: true
-      className: tailscale
-      annotations:
-        tailscale.com/hostname: imagining
-      labels:
-        tailscale.com/proxy-class: "irish-eyes"
-      hosts:
-        - host: imagining
-          paths:
-            - path: /
-              pathType: ImplementationSpecific
-      tls:
-        - hosts:
-            - imagining
+      comfyui:
+        enabled: true
+        className: tailscale
+        annotations:
+          tailscale.com/hostname: imagine
+        labels:
+          tailscale.com/proxy-class: "irish-eyes"
+        hosts:
+          - host: imagine
+            paths:
+              - path: /
+                pathType: ImplementationSpecific
+        tls:
+          - hosts:
+              - imagine
 
     persistence:
       workspace:
         enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
         size: 50Gi
         globalMounts:
           - path: /workspace
 
       output:
         enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
         size: 50Gi
         globalMounts:
           - path: /workspace/ComfyUI/output
 
       config:
         type: configMap
+        accessMode: ReadWriteOnce
         name: comfyui-configmap
         size: 100Mi
         advancedMounts:
