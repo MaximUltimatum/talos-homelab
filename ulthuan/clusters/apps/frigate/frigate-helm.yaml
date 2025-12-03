@@ -89,15 +89,15 @@ spec:
       record:
         enabled: True
         retain:
-          days: 3
+          days: 1
           mode: all
         alerts:
           retain:
-            days: 30
+            days: 15
             mode: motion
         detections:
           retain:
-            days: 30
+            days: 15
             mode: motion
 
       face_recognition:
@@ -106,10 +106,16 @@ spec:
       snapshots:
         enabled: true
         retain:
-          default: 30
+          default: 15
 
       cameras:
         front_door: # camera name
+          zones:
+            front_yard:
+              coordinates: 0,1,0,0.855,0.362,0.484,0.813,0.456,0.815,1
+          detections:
+            required_zones:
+              - front_yard
           ffmpeg:
             inputs:
               - path: rtsp://{FRIGATE_RSTP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.4.84:554/cam/realmonitor?channel=1&subtype=0
@@ -122,6 +128,12 @@ spec:
             height: 720
           # fps: 5
         back_door:
+          zones:
+            back_yard:
+              coordinates: 1,1,0.998,0.371,0.456,0.303,0.445,0.373,0,0.689,0,1
+          detections:
+            required_zones:
+              - back_yard
           ffmpeg:
             inputs:
               - path: rtsp://{FRIGATE_RSTP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.4.85:554/cam/realmonitor?channel=1&subtype=0
