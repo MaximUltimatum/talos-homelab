@@ -37,8 +37,8 @@ spec:
               repository: ghcr.io/seanmorley15/adventurelog-backend
               tag: &version v0.11.0
             env:
-              DISABLE_REGISTRATION: "False"
-              #DISABLE_REGISTRATION_MESSAGE: "Registration is disabled, log in with The Science Team"
+              DISABLE_REGISTRATION: "True"
+              DISABLE_REGISTRATION_MESSAGE: "Registration is disabled, log in with The Science Team"
               PUBLIC_URL: "https://travel-backend.maximstroud.de"
               FRONTEND_URL: &frontend-url "https://travel.maximstroud.de"
               CSRF_TRUSTED_ORIGINS: "https://travel-backend.maximstroud.de,https://travel.maximstroud.de,http://travel-travel-backend.travel.svc.cluster.local:80"
