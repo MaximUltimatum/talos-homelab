@@ -114,7 +114,7 @@ spec:
           tailscale.com/hostname: sync
         labels:
           tailscale.com/proxy-class: "irish-eyes"
-        ports: *browser
+        ports: 80
     persistence:
       config:
         enabled: true
