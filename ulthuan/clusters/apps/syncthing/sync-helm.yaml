@@ -127,9 +127,13 @@ spec:
             targetPort: 21027
       browser:
         controller: browser
-        ports:
-          http:
-            port: *browserPort
+        type: LoadBalancer
+        loadBalancerClass: tailscale
+        annotations:
+          tailscale.com/hostname: sync
+        labels:
+          tailscale.com/proxy-class: "irish-eyes"
+        ports: *browser
     persistence:
       config:
         enabled: true
