@@ -97,6 +97,7 @@ spec:
           - host: *host
             paths:
               - path: /
+                pathType: ImplementationSpecific
                 service:
                   identifier: browser
                   port: 80
