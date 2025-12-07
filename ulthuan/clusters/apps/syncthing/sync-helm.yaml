@@ -98,7 +98,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: browser
+                  identifier: browser
                   port: 80
         tls:
           - hosts:
