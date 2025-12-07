@@ -86,22 +86,18 @@ spec:
             fsGroup: 1000
             fsGroupChangePolicy: "OnRootMismatch"
     ingress:
-      enabled: true
-      className: tailscale
-      annotations:
-        tailscale.com/hostname: &host sync
-      labels:
-        tailscale.com/proxy-class: "irish-eyes"
-      hosts:
-        - host: *host
-          paths:
-            - path: /
-              service:
-                name: browser
-                port: 80
-      tls:
-        - hosts:
-            - *host
+      browser:
+        enabled: true
+        className: tailscale
+        annotations:
+          tailscale.com/hostname: &host sync
+        labels:
+          tailscale.com/proxy-class: "irish-eyes"
+        hosts:
+          - host: *host
+        tls:
+          - hosts:
+              - *host
     service:
       app:
         controller: syncthing
