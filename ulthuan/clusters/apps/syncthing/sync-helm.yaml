@@ -113,7 +113,6 @@ spec:
         labels:
           tailscale.com/proxy-class: "irish-eyes"
         type: LoadBalancer
-        controller: browser
         ports:
           http:
             port: *browserPort
