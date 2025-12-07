@@ -97,9 +97,6 @@ spec:
           - host: *host
             paths:
               - path: /
-                service:
-                  name: browser
-                  port: 80
         tls:
           - hosts:
               - *host
