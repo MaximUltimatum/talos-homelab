@@ -107,6 +107,11 @@ spec:
             protocol: UDP
             targetPort: 21027
       browser:
+        annotations:
+          tailscale.com/hostname: sync
+        labels:
+          tailscale.com/proxy-class: "irish-eyes"
+        type: LoadBalancer
         controller: browser
         ports:
           http:
