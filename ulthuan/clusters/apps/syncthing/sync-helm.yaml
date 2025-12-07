@@ -113,10 +113,11 @@ spec:
             port: *browserPort
     persistence:
       config:
+        enabled: true
         type: persistentVolumeClaim
-        suffix: config
         accessMode: ReadWriteOnce
         size: 1Gi
+        suffix: config
         advancedMounts:
           browser:
             app:
@@ -124,6 +125,7 @@ spec:
       data:
         enabled: true
         type: persistentVolumeClaim
+        accessMode: ReadWriteMany
         size: 100Gi
         globalMounts:
           - path: /var/syncthing
