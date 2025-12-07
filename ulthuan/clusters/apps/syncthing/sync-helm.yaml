@@ -115,7 +115,9 @@ spec:
           tailscale.com/proxy-class: "irish-eyes"
         labels:
           tailscale.com/proxy-class: "irish-eyes"
-        ports: 80
+        ports:
+          http:
+            port: 80
     persistence:
       config:
         enabled: true
