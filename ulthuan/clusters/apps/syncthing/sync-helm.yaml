@@ -112,6 +112,7 @@ spec:
         loadBalancerClass: tailscale
         annotations:
           tailscale.com/hostname: sync
+          tailscale.com/proxy-class: "irish-eyes"
         labels:
           tailscale.com/proxy-class: "irish-eyes"
         ports: 80
