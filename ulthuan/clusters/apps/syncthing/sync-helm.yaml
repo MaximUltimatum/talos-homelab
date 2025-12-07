@@ -95,6 +95,11 @@ spec:
           tailscale.com/proxy-class: "irish-eyes"
         hosts:
           - host: *host
+            paths:
+              - path: /
+                service:
+                  name: browser
+                  port: 80
         tls:
           - hosts:
               - *host
