@@ -57,6 +57,8 @@ spec:
       main:
         enabled: true
         className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
         hosts:
           - host: &hostname share.maximstroud.de
             paths:
