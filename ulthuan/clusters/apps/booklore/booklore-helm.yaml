@@ -73,7 +73,7 @@ spec:
           mariadb:
             image:
               repository: docker.io/library/mariadb
-              tag: "11.4"
+              tag: "11.8"
             envFrom:
               - secretRef:
                   name: booklore-secret
