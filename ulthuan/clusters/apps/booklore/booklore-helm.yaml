@@ -114,6 +114,20 @@ spec:
         className: nginx
         annotations:
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          # Kobo sync requirements: forward original headers to upstream
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Host $host;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Forwarded-Port $server_port;
+          # Buffer settings
+          nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+          nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+          nginx.ingress.kubernetes.io/proxy-busy-buffers-size: "256k"
+          nginx.ingress.kubernetes.io/server-snippet: |
+            large_client_header_buffers 8 32k;
         hosts:
           - host: &hostname reading.maximstroud.de
             paths:
