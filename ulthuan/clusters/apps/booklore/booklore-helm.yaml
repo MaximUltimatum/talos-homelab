@@ -79,6 +79,21 @@ spec:
                   name: booklore-secret
             env:
               MARIADB_DATABASE: booklore
+              MARIADB_USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: booklore-secret
+                    key: DATABASE_USERNAME
+              MARIADB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: booklore-secret
+                    key: DATABASE_PASSWORD
+              MARIADB_ROOT_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: booklore-secret
+                    key: MARIADB_ROOT_PASSWORD
 
     service:
       app :
