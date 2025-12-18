@@ -1,0 +1,144 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: booklore
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: booklore
+  namespace: booklore
+spec:
+  interval: 15m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 4.5.0
+  url: oci://ghcr.io/bjw-s-labs/helm/app-template
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app booklore
+  namespace: *app
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  targetNamespace: *app
+  values:
+    controllers:
+      *app :
+        containers:
+          *app :
+            image:
+              repository: ghcr.io/booklore-app/booklore
+              tag: v1.13.1
+
+            env:
+              TZ: America/Chicago
+              PUID: 1000
+              PGID: 1000
+              DATABASE_URL: "jdbc:mariadb://mariadb.svc.cluster.local:3306/booklore"
+              DATABASE_USERNAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: booklore-secret
+                    key: DATABASE_USERNAME
+              DATABASE_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: booklore-secret
+                    key: DATABASE_PASSWORD
+              SWAGGER_ENABLED: "false"
+
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: &port 6060
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+
+      mariadb:
+        containers:
+          mariadb:
+            image:
+              repository: docker.io/library/mariadb
+              tag: "11.4"
+            env:
+              MARIADB_DATABASE: booklore
+              MARIADB_USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: booklore-secret
+                    key: DATABASE_USERNAME
+              MARIADB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: booklore-secret
+                    key: DATABASE_PASSWORD
+
+    service:
+      app :
+        controller: *app
+        ports:
+          http:
+            port: *port
+      mariadb:
+        controller: mariadb
+        ports:
+          mysql:
+            port: 3306
+            targetPort: 3306
+
+    ingress:
+      main:
+        enabled: true
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
+        hosts:
+          - host: &hostname reading.maximstroud.de
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: 3000
+        tls:
+          - hosts:
+              - *hostname
+            secretName: maximstroud.de-cert
+
+    persistence:
+      config:
+        existingClaim: *app
+        globalMounts:
+          - path: /app/data
+
+      media:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        globalMounts:
+          - path: /books
+            subPath: books
+      bookdrop:
+        type: emptyDir
+      mariadb-data:
+        enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        advancedMounts:
+          mariadb:
+            mariadb:
+              - path: /var/lib/mysql
