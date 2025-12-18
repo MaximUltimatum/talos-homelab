@@ -42,7 +42,7 @@ spec:
               TZ: America/Chicago
               PUID: 1000
               PGID: 1000
-              DATABASE_URL: "jdbc:mariadb://mariadb.svc.cluster.local:3306/booklore"
+              DATABASE_URL: "jdbc:mariadb://booklore-mariadb.booklore.svc.cluster.local:3306/booklore"
               DATABASE_USERNAME:
                 valueFrom:
                   secretKeyRef:
@@ -112,8 +112,8 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  identifier: main
-                  port: 3000
+                  identifier: app
+                  port: 6060
         tls:
           - hosts:
               - *hostname
@@ -121,13 +121,16 @@ spec:
 
     persistence:
       config:
-        existingClaim: *app
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 100Mi
         globalMounts:
           - path: /app/data
 
       media:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
+        size: 50Gi
         globalMounts:
           - path: /books
             subPath: books
