@@ -74,18 +74,11 @@ spec:
             image:
               repository: docker.io/library/mariadb
               tag: "11.4"
+            envFrom:
+              - secretRef:
+                  name: booklore-secret
             env:
               MARIADB_DATABASE: booklore
-              MARIADB_USER:
-                valueFrom:
-                  secretKeyRef:
-                    name: booklore-secret
-                    key: DATABASE_USERNAME
-              MARIADB_PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: booklore-secret
-                    key: DATABASE_PASSWORD
 
     service:
       app :
@@ -123,7 +116,7 @@ spec:
       config:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
-        size: 100Mi
+        size: 2Gi
         globalMounts:
           - path: /app/data
 
@@ -135,7 +128,11 @@ spec:
           - path: /books
             subPath: books
       bookdrop:
-        type: emptyDir
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        globalMounts:
+          - path: /bookdrop
       mariadb-data:
         enabled: true
         type: persistentVolumeClaim
