@@ -45,7 +45,6 @@ spec:
                         - alithanar
         containers:
           *app :
-            pod:
             image:
               repository: ghcr.io/booklore-app/booklore
               tag: v1.13.1
