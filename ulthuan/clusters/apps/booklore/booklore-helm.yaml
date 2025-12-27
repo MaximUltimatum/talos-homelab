@@ -34,9 +34,9 @@ spec:
   values:
     controllers:
       *app :
-        nodeSelector:
-          kubernetes.io/hostname: alithanar
         containers:
+          nodeSelector:
+            kubernetes.io/hostname: alithanar
           *app :
             image:
               repository: ghcr.io/booklore-app/booklore
