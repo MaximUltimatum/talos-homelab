@@ -1,0 +1,62 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: prowlarr
+  namespace: media
+spec:
+  interval: 15m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 4.5.0
+  url: oci://ghcr.io/bjw-s-labs/helm/app-template
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prowlarr
+  namespace: media
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: prowlarr
+  targetNamespace: media
+  values:
+    global:
+      alwaysAppendIdentifierToResourceName: true
+
+    controllers:
+      main:
+        enabled: true
+        strategy: Recreate
+        containers:
+          main:
+            env:
+              TZ: America/Chicago
+              PUID: 11337
+              PGID: 11337
+            image:
+              repository: ghcr.io/hotio/prowlarr
+              tag: release-2.3.0.5236
+              pullPolicy: IfNotPresent
+
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 11337
+
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 9696
+            targetPort: 9696
+
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
