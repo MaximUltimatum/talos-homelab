@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lazylibrarian
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: lazylibrarian
+  namespace: lazylibrarian
+spec:
+  interval: 15m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 4.5.0
+  url: oci://ghcr.io/bjw-s-labs/helm/app-template
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app lazylibrarian
+  namespace: *app
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  targetNamespace: *app
+  values:
+    controllers:
+      *app:
+        pod:
+          nodeSelector:
+            kubernetes.io/hostname: alithanar
+        containers:
+          *app:
+            image:
+              repository: ghcr.io/linuxserver/lazylibrarian
+              tag: latest
+            env:
+              TZ: America/Chicago
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: &port 5299
+
+    ingress:
+      main:
+        enabled: true
+        className: nginx
+        hosts:
+          - host: &hostname library.maximstroud.de
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: *port
+        tls:
+          - hosts:
+              - *hostname
+            secretName: maximstroud.de-cert
+
+    persistence:
+      config:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        globalMounts:
+          - path: /config
+
+      media:
+        type: hostPath
+        path: /var/mnt/whatever/cannonball
+        globalMounts:
+          - path: /media
+          - path: /downloads
+
+      tmp:
+        type: emptyDir
