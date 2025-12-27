@@ -36,8 +36,15 @@ spec:
       *app :
         containers:
           *app :
-            nodeSelector:
-              kubernetes.io/hostname: alithanar
+            affinity:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                    - matchExpressions:
+                        - key: kubernetes.io/hostname
+                          operator: In
+                          values:
+                            - alithanar
             image:
               repository: ghcr.io/booklore-app/booklore
               tag: v1.13.1
