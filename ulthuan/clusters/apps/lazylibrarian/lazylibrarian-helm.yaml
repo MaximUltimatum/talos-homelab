@@ -78,7 +78,7 @@ spec:
       media:
         type: hostPath
         hostPath: /var/mnt/whatever/cannonball
-        hostPathType: Directory
+        # hostPathType: Directory
         globalMounts:
           - path: /media
           - path: /downloads
