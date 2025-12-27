@@ -3,7 +3,7 @@ kind: Namespace
 metadata:
   name: lazylibrarian
   labels:
-    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/enforce: privileged
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
