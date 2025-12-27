@@ -49,9 +49,19 @@ spec:
     service:
       main:
         controller: main
+        type: LoadBalancer
+        loadBalancerClass: tailscale
+        annotations:
+          tailscale.com/hostname: library
+          tailscale.com/proxy-class: "irish-eyes"
+        labels:
+          tailscale.com/proxy-class: "irish-eyes"
         ports:
           http:
-            port: 9696
+            port: 80
+            targetPort: 9696
+          https:
+            port: 443
             targetPort: 9696
 
     persistence:
