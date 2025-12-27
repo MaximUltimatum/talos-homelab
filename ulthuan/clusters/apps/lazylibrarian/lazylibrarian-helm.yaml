@@ -32,16 +32,8 @@ spec:
   values:
     controllers:
       *app:
-        pod:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: kubernetes.io/hostname
-                        operator: In
-                        values:
-                          - alithanar
+        nodeSelector:
+          kubernetes.io/hostname: alithanar
         containers:
           *app:
             image:
