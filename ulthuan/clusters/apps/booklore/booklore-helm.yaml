@@ -161,7 +161,7 @@ spec:
             subPath: books
       bookdrop:
         type: hostPath
-        path: /var/mnt/whatever/cannonball
+        hostPath: /var/mnt/whatever/cannonball
         hostPathType: DirectoryOrCreate
         globalMounts:
           - path: /bookdrop

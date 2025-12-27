@@ -33,8 +33,15 @@ spec:
     controllers:
       *app:
         pod:
-          nodeSelector:
-            kubernetes.io/hostname: alithanar
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - alithanar
         containers:
           *app:
             image:
