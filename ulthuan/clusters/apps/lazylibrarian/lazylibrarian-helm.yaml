@@ -58,7 +58,11 @@ spec:
           tailscale.com/proxy-class: "irish-eyes"
         ports:
           http:
-            port: 5299
+            port: 80
+            targetPort: 5299
+          https:
+            port: 443
+            targetPort: 5299
 
     persistence:
       config:
