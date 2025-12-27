@@ -30,10 +30,11 @@ spec:
     name: *app
   targetNamespace: *app
   values:
+    defaultPodOptions:
+      nodeSelector:
+        kubernetes.io/hostname: alithanar
     controllers:
       *app:
-        nodeSelector:
-          kubernetes.io/hostname: alithanar
         containers:
           *app:
             image:
