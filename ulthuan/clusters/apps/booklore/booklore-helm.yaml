@@ -140,22 +140,28 @@ spec:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 2Gi
-        globalMounts:
-          - path: /app/data
+        advancedMounts:
+          *app :
+            *app :
+              - path: /app/data
 
       media:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 50Gi
-        globalMounts:
-          - path: /books
-            subPath: books
+        advancedMounts:
+          *app :
+            *app :
+              - path: /books
+                subPath: books
       bookdrop:
         type: hostPath
         hostPath: /var/mnt/whatever/cannonball
         hostPathType: DirectoryOrCreate
-        globalMounts:
-          - path: /bookdrop
+        advancedMounts:
+          *app :
+            *app :
+              - path: /bookdrop
       mariadb-data:
         enabled: true
         type: persistentVolumeClaim
