@@ -84,5 +84,5 @@ spec:
                   chmod 700 /root/.ssh || true
                   chmod 400 /root/.ssh/id_rsa || true
                   # Perform the backup limited to 133 Mb/s
-                  restic backup /data --tag "${RESTIC_TAG:-cron}" --verbose --password-file /restic_password -r "${RESTIC_REPOSITORY:-}" --limit-upload 16666
+                  restic backup /data --host ulthuan --tag "${RESTIC_TAG:-cron}" --verbose --password-file /restic_password -r "${RESTIC_REPOSITORY:-}" --limit-upload 16666
                   rm /restic_password
