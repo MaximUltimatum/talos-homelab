@@ -53,7 +53,7 @@ spec:
           app:
             image:
               repository: mirror.gcr.io/filebrowser/filebrowser
-              tag: v2.53.0
+              tag: v2.53.1
             env:
               TZ: America/Chicago
               FB_DATABASE: /config/filebrowser.db
