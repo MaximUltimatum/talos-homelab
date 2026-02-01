@@ -23,7 +23,7 @@ spec:
   chart:
     spec:
       chart: vikunja
-      version: "1.1.0"
+      version: "2.0.0"
       sourceRef:
         kind: HelmRepository
         name: vikunja-helm-repo
@@ -36,7 +36,7 @@ spec:
           name: vikunja-config
       image:
         repository: vikunja/vikunja
-        tag: 1.0.0-rc2
+        tag: 1.0.0
       ingress:
         main:
           enabled: false # set in resources
@@ -83,20 +83,3 @@ spec:
               name: smtp-secrets
               key: smtp-password
         VIKUNJA_MAILER_FROMEMAIL: tasks@maximstroud.de
-    postgresql:
-      enabled: false
-    typesense:
-      enabled: false # typesense integration appears to be broken in 1.0 rc2 - try again once it's GA
-      env:
-        TYPESENSE_DATA_DIR: /data
-        TYPESENSE_API_KEY: typesense
-        VIKUNJA_TYPESENSE_URL: http://vikunja-vikunja-typesense.vikunja.svc.cluster.local:8108
-      persistence:
-        data:
-          enabled: true
-          accessMode: ReadWriteOnce
-          size: 2Gi
-      image:
-        repository: docker.io/typesense/typesense
-        tag: 0.25.2
-        pullPolicy: IfNotPresent
