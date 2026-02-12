@@ -21,7 +21,7 @@ spec:
             claimName: lubebottle-pvc
       containers:
         - name: lube-benedict
-          image: ghcr.io/hargata/lubelogger:v1.5.8
+          image: ghcr.io/hargata/lubelogger:v1.6.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
