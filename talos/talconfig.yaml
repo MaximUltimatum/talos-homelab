@@ -1,0 +1,273 @@
+---
+clusterName: ulthuan
+talosVersion: v1.12.4
+kubernetesVersion: v1.34.4
+endpoint: https://192.168.4.42:6443
+#domain: ${myDomainName}
+allowSchedulingOnMasters: true
+clusterPodNets:
+  - 10.244.0.0/16
+clusterSvcNets:
+  - 10.96.0.0/12
+patches:
+  - |-
+    machine:
+      sysctls:
+        vm.nr_hugepages: "1024"
+      kernel:
+        modules:
+          - name: nvme_tcp
+          - name: vfio_pci
+      kubelet:
+        extraArgs:
+          rotate-server-certificates: true
+  - |-
+    cluster:
+      extraManifests:
+        - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
+        - https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+nodes:
+  - hostname: tyrion
+    ipAddress: 192.168.4.71
+    installDisk: /dev/nvme0n1
+    controlPlane: true
+    networkInterfaces:
+      - interface: enp0s20f0u5
+        dhcp: true
+        vip:
+          ip: 192.168.4.42
+    volumes:
+      - name: EPHEMERAL
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'nvme'
+          maxSize: 100GB
+          grow: true
+    userVolumes:
+      - name: longhorn-nvme
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'nvme'
+          grow: true
+          maxSize: 150GB
+      - name: longhorn-data
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'sata'
+          grow: true
+          maxSize: 2TB
+
+  - hostname: teclis
+    ipAddress: 192.168.4.74
+    installDisk: /dev/nvme0n1
+    controlPlane: true
+    networkInterfaces:
+      - interface: enp0s31f6
+        dhcp: true
+        vip:
+          ip: 192.168.4.42
+    volumes:
+      - name: EPHEMERAL
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'nvme'
+          maxSize: 100GB
+          grow: true
+    userVolumes:
+      - name: longhorn-nvme
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'nvme'
+          grow: true
+          maxSize: 150GB
+
+  - hostname: eltharion
+    ipAddress: 192.168.4.72
+    installDisk: /dev/sdb
+    controlPlane: true
+    networkInterfaces:
+      - interface: enp0s31f6
+        dhcp: true
+        vip:
+          ip: 192.168.4.42
+    volumes:
+      - name: EPHEMERAL
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'sata'
+          minSize: 100GB
+          maxSize: 100GB
+          grow: true
+    userVolumes:
+      - name: longhorn-data
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'sata'
+          grow: true
+          maxSize: 1.8TB
+
+  - hostname: imrik
+    ipAddress: 192.168.4.70
+    installDisk: /dev/nvme0n1
+    volumes:
+      - name: EPHEMERAL
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'nvme'
+          maxSize: 100GB
+          grow: true
+    userVolumes:
+      - name: longhorn-nvme
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'nvme'
+          grow: true
+          maxSize: 150GB
+      - name: longhorn-data
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'sata'
+          grow: true
+          maxSize: 2TB
+
+  - hostname: alarielle
+    ipAddress: 192.168.4.69
+    installDisk: /dev/nvme0n1
+    volumes:
+      - name: EPHEMERAL
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'nvme'
+          maxSize: 100GB
+          grow: true
+    userVolumes:
+      - name: longhorn-nvme
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'nvme'
+          grow: true
+          maxSize: 150GB
+      - name: longhorn-data
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'sata'
+          grow: true
+          maxSize: 2TB
+
+  - hostname: aislinn
+    ipAddress: 192.168.4.73
+    installDisk: /dev/sdb
+    kernelModules:
+      - name: nvidia
+      - name: nvidia_uvm
+      - name: nvidia_drm
+      - name: nvidia_modeset
+    patches:
+      - |-
+        machine:
+          sysctls:
+            net.core.bpf_jit_harden: 1
+          files:
+            - content: |
+                [plugins]
+                  [plugins."io.containerd.cri.v1.runtime"]
+                    [plugins."io.containerd.cri.v1.runtime".containerd]
+                      default_runtime_name = "nvidia"
+              permissions: 0o0
+              path: /etc/cri/conf.d/20-customization.part
+              op: create
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/iscsi-tools #longhorn
+            - siderolabs/util-linux-tools #longhorn
+            - siderolabs/nvme-cli #nvmes
+            - siderolabs/tailscale #it says on the tin
+            - siderolabs/nonfree-kmod-nvidia-production #gpu
+            - siderolabs/nvidia-container-toolkit-production #gpu
+    volumes:
+      - name: EPHEMERAL
+        provisioning:
+          diskSelector:
+            match: disk.pretty_size == '250 GB'
+          minSize: 2GB
+          grow: true
+    userVolumes:
+      - name: longhorn-nvme1
+        provisioning:
+          diskSelector:
+            match: disk.pretty_size == '1.0 TB'
+          grow: true
+          maxSize: 1TB
+
+  - hostname: alithanar
+    ipAddress: 192.168.4.77
+    installDisk: /dev/nvme0n1
+    kernelModules:
+      - name: zfs
+      - name: nfsd
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/iscsi-tools #longhorn
+            - siderolabs/util-linux-tools #longhorn
+            - siderolabs/nvme-cli #nvmes
+            - siderolabs/tailscale #it says on the tin
+            - siderolabs/zfs #nas
+            - siderolabs/nfsd #nas
+    volumes:
+      - name: EPHEMERAL
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'nvme' && disk.pretty_size == '1.0 TB'
+          maxSize: 100GB
+          grow: true
+    userVolumes:
+      - name: longhorn-nvme1
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'nvme' && disk.pretty_size == '1.0 TB'
+          grow: true
+          maxSize: 900GB
+      - name: longhorn-nvme2
+        provisioning:
+          diskSelector:
+            match: disk.transport == 'nvme' && disk.pretty_size == '2.0 TB'
+          grow: true
+          maxSize: 2.0TB
+controlPlane:
+  patches:
+    - |-
+      machine:
+        nodeLabels:
+          node.kubernetes.io/exclude-from-external-load-balancers:
+            $$patch: delete
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/iscsi-tools #longhorn
+          - siderolabs/util-linux-tools #longhorn
+          - siderolabs/nvme-cli #nvmes
+          - siderolabs/tailscale #it says on the tin
+          - siderolabs/usb-modem-drivers #for tyrion
+  extensionServices:
+    - name: tailscale
+      environment:
+        - TS_AUTHKEY=${TS_AUTHKEY}
+worker:
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/iscsi-tools #longhorn
+          - siderolabs/util-linux-tools #longhorn
+          - siderolabs/nvme-cli #nvmes
+          - siderolabs/tailscale #it says on the tin
+          - siderolabs/usb-modem-drivers #for tyrion
+  extensionServices:
+    - name: tailscale
+      environment:
+        - TS_AUTHKEY=${TS_AUTHKEY}

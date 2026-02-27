@@ -1,0 +1,17 @@
+keys:
+  - &yubikey "age1yubikey1qg49rv6mtf92gnt803tce8a889vc4jr4cs3fwjemztyghpam8ut07q42wa0"
+  - &fallback "age1ua9hwkg2ucu4ds2279zzfz7jwcdkat3tnsag2rerymrcr8pp5gpsyhgrx3"
+
+creation_rules:
+  - path_regex: ".*\\.yaml$"
+    key_groups:
+      - age:
+          - *yubikey
+          - *fallback
+  - path_regex: ".*\\.env$"
+    input_type: dotenv
+    output_type: dotenv
+    key_groups:
+      - age:
+          - *yubikey
+          - *fallback
