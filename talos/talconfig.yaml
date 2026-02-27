@@ -12,6 +12,8 @@ clusterSvcNets:
 patches:
   - |-
     machine:
+      install:
+        grubUseUKICmdline: false # necessary for upgrading to v1.12. Maybe removed later?
       sysctls:
         vm.nr_hugepages: "1024"
       kernel:
