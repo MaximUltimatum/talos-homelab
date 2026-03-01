@@ -36,7 +36,7 @@ spec:
       - "--providers.kubernetesIngressNGINX"
 
     service:
-      type: ClusterIP  #ClusterIP
+      type: LoadBalancer
 
     ingressRoute:
       dashboard:
