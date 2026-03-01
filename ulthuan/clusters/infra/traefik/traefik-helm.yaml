@@ -40,4 +40,4 @@ spec:
 
     ingressRoute:
       dashboard:
-        enabled: false
+        enabled: true
