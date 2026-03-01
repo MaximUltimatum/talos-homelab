@@ -12817,7 +12817,7 @@ spec:
             resourceFieldRef:
               containerName: manager
               resource: limits.memory
-        image: ghcr.io/fluxcd/source-watcher:v2.0.3
+        image: ghcr.io/fluxcd/source-watcher:v2.1.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
