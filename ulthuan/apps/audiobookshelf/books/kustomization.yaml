@@ -8,5 +8,6 @@ resources:
 - base/custom-headers.yaml
 - base/ingress-nginx.yaml
 - base/cert.yaml
+- base/gateway.yaml
 
 namespace: media
