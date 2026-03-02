@@ -123,6 +123,8 @@ spec:
         enabled: true
         className: nginx
         annotations:
+          traefik.ingress.kubernetes.io/router.tls: 'true'
+          traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
           nginx.ingress.kubernetes.io/proxy-body-size: "10m"
           # Buffer settings
           nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
