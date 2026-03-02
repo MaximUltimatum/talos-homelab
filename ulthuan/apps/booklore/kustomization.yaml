@@ -3,6 +3,5 @@ kind: Kustomization
 
 resources:
 - sealed-booklore-secret.yaml
-- bookdrop-cronjob.yaml
 
 namespace: booklore
