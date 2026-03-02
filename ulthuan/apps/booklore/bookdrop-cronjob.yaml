@@ -19,15 +19,12 @@ spec:
               image: alpine:latest
               command:
                 - sh
-                - /scripts/bookdrop.sh
+                - /cannonball/bookdrop.sh
               volumeMounts:
                 - name: cannonball
                   mountPath: /cannonball
                 - name: bookdrop
                   mountPath: /bookdrop
-                - name: script
-                  mountPath: /scripts
-                  subPath: bookdrop.sh
           volumes:
             - name: cannonball
               hostPath:
@@ -37,7 +34,3 @@ spec:
               hostPath:
                 path: /var/mnt/whatever/books/ebooks-booklore
                 type: Directory
-            - name: script
-              hostPath:
-                path: /var/mnt/whatever/cannonball/bookdrop.sh
-                type: File
