@@ -23,7 +23,7 @@ spec:
               volumeMounts:
                 - name: cannonball
                   mountPath: /cannonball
-                - name: books
+                - name: bookdrop
                   mountPath: /bookdrop
                 - name: script
                   mountPath: /scripts
