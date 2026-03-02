@@ -166,7 +166,7 @@ spec:
                 subPath: books
       bookdrop:
         type: hostPath
-        hostPath: /var/mnt/whatever/cannonball
+        hostPath: /var/mnt/whatever/books/ebooks-booklore
         hostPathType: DirectoryOrCreate
         advancedMounts:
           *app :

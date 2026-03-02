@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cannonball-rsync
+  namespace: default
+spec:
+  schedule: "*/15 * * * *"
+  concurrencyPolicy: Forbid  # Skip run if previous is still going
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          nodeName: alithanar
+          restartPolicy: OnFailure
+          containers:
+            - name: rsync
+              image: eeacms/rsync
+              command:
+                - sh
+                - -c
+                - |
+                  rsync -av \
+                    /mnt/cannonball/ \
+                    /mnt/booklore/
+              volumeMounts:
+                - name: cannonball
+                  mountPath: /mnt/cannonball
+                - name: booklore
+                  mountPath: /mnt/booklore
+          volumes:
+            - name: cannonball
+              hostPath:
+                path: /var/mnt/whatever/cannonball
+                type: Directory
+            - name: booklore
+              hostPath:
+                path: /var/mnt/whatever/books/ebooks-booklore
+                type: Directory
