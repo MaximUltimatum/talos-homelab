@@ -27,6 +27,7 @@ spec:
                   mountPath: /bookdrop
                 - name: script
                   mountPath: /scripts
+                  subPath: bookdrop.sh
           volumes:
             - name: cannonball
               hostPath:
