@@ -12,6 +12,14 @@ spec:
   interval: 1h
   url: https://traefik.github.io/charts
 ---
+# Traefik compatibility mode
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: nginx
+spec:
+  controller: traefik.io/ingress-controller
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
