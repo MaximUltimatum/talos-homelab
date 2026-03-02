@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cannonball-sync
+  namespace: default
+spec:
+  schedule: "*/15 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          nodeName: alithanar
+          restartPolicy: OnFailure
+          containers:
+            - name: sync
+              image: alpine:latest
+              command:
+                - sh
+                - /scripts/bookdrop.sh
+              volumeMounts:
+                - name: cannonball
+                  mountPath: /cannonball
+                - name: books
+                  mountPath: /bookdrop
+                - name: script
+                  mountPath: /scripts
+          volumes:
+            - name: cannonball
+              hostPath:
+                path: /var/mnt/whatever/cannonball
+                type: Directory
+            - name: bookdrop
+              hostPath:
+                path: /var/mnt/whatever/books/ebooks-booklore
+                type: Directory
+            - name: script
+              hostPath:
+                path: /var/mnt/whatever/cannonball/bookdrop.sh
+                type: File
