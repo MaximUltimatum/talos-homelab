@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - base/deployment.yaml
-  - base/loadbalancer.yaml
   - base/oidc-config-sealed.yaml
   - base/ingress.yaml
   - base/service.yaml
