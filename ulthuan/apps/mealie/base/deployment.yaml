@@ -32,7 +32,7 @@ spec:
             - name: DB_ENGINE
               value: sqlite
             - name: BASE_URL
-              value: recipes.maximstroud.de
+              value: https://recipes.maximstroud.de
             - name: SMTP_HOST
               valueFrom:
                 secretKeyRef:
