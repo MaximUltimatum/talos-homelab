@@ -62,7 +62,7 @@ spec:
             port: 3001
 
     ingress:
-      main:
+      uptime-kuma:
         enabled: true
         className: tailscale
         annotations:
