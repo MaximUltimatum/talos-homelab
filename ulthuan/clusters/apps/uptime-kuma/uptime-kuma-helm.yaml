@@ -76,7 +76,7 @@ spec:
                 pathType: ImplementationSpecific
                 service:
                   identifier: uptime-kuma
-                  port: 3001
+                  port: http
         tls:
           - hosts:
               - uptime
