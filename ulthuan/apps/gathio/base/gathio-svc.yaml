@@ -8,7 +8,7 @@ spec:
   selector:
     app: gathio
   ports:
-    - port: 443
+    - port: 80
       targetPort: 443
       protocol: TCP
   type: ClusterIP
