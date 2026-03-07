@@ -104,14 +104,3 @@ spec:
         retain: true
         globalMounts:
           - path: /app/data
-
-    serviceMonitor:
-      main:
-        enabled: true
-        serviceName: uptime-kuma
-        endpoints:
-          - port: http
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
