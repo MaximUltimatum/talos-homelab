@@ -3,6 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: plugin-barman-cloud
+  namespace: cnpg-system
 spec:
   interval: 1h
   ref:
@@ -13,6 +14,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app plugin-barman-cloud
+  namespace: cnpg-system
 spec:
   interval: 1h
   chartRef:
