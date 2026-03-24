@@ -36,7 +36,7 @@ spec:
           name: vikunja-config
       image:
         repository: vikunja/vikunja
-        tag: 2.2.0
+        tag: 2.2.2
       ingress:
         main:
           enabled: false # set in resources
