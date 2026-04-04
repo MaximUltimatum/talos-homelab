@@ -39,9 +39,9 @@ spec:
 
     persistence:
       meta:
-        hostPath: /var/mnt/whatever/minio/meta
+        hostPath: /var/mnt/whatever/garage/meta
       data:
-        hostPath: /var/mnt/whatever/minio/data
+        hostPath: /var/mnt/whatever/garage/data
 
     nodeSelector:
       kubernetes.io/hostname: alithanar
