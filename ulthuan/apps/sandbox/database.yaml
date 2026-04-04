@@ -3,6 +3,7 @@ kind: Cluster
 metadata:
   name: cluster-sandbox
 spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:17
   instances: 1
   bootstrap:
     recovery:
