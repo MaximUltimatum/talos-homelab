@@ -1,0 +1,12 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: daily-backup
+spec:
+  schedule: "0 0 0 * * *"  # At midnight every day, custom cnpg cron expression
+  backupOwnerReference: self
+  cluster:
+    name: cluster-zipline
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io

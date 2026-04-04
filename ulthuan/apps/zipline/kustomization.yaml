@@ -4,5 +4,7 @@ kind: Kustomization
 resources:
 - sealed-zipline-creds.yaml
 - database.yaml
+- backup.yaml
+- ../shared-store
 
 namespace: zipline

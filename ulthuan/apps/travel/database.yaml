@@ -14,3 +14,8 @@ spec:
         - "ALTER USER adventure CREATEDB SUPERUSER;"
   storage:
     size: 30Gi
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: aws-store

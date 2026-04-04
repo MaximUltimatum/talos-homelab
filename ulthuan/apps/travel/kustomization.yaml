@@ -4,5 +4,7 @@ kind: Kustomization
 resources:
 - sealed-travel-creds.yaml
 - database.yaml
+- backup.yaml
+- ../shared-store
 
 namespace: travel

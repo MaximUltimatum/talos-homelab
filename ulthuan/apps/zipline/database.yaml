@@ -11,3 +11,8 @@ spec:
         name: zipline-credentials
   storage:
     size: 10Gi
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: aws-store
