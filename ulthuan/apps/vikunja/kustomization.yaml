@@ -7,4 +7,5 @@ resources:
   - sealed-vikunja-config.yaml
   - vikunja-ingress.yaml
   - database.yaml
+  - backup.yaml
   - ../shared
