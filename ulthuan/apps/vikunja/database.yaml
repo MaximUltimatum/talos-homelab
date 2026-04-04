@@ -11,3 +11,8 @@ spec:
         name: vikunja-credentials
   storage:
     size: 8Gi
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: aws-store
