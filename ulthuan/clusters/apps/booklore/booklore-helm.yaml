@@ -47,8 +47,8 @@ spec:
         containers:
           *app :
             image:
-              repository: ghcr.io/booklore-app/booklore
-              tag: v1.18.5
+              repository: ghcr.io/grimmory/grimmory
+              tag: v2.3.0
             env:
               TZ: America/Chicago
               PUID: 1000
