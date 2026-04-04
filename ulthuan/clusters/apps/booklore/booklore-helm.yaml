@@ -47,7 +47,7 @@ spec:
         containers:
           *app :
             image:
-              repository: ghcr.io/grimmory/grimmory
+              repository: docker.io/grimmory/grimmory
               tag: v2.3.0
             env:
               TZ: America/Chicago
