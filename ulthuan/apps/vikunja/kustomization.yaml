@@ -8,4 +8,5 @@ resources:
   - vikunja-ingress.yaml
   - database.yaml
   - backup.yaml
+  - ../shared-store
   - ../shared
