@@ -1,0 +1,15 @@
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: aws-store
+spec:
+  configuration:
+    destinationPath: "s3://barman-bucket/barman"
+    endpointURL: "https://garage.garage.svc.cluster.local:3900"
+    s3Credentials:
+      accessKeyId:
+        name: aws-creds
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: aws-creds
+        key: ACCESS_SECRET_KEY
