@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: garage
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: garage
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://git.deuxfleurs.fr/Deuxfleurs/garage
+  ref:
+    tag: v2.2.0
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: garage
+  namespace: garage
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: script/helm/garage
+      sourceRef:
+        kind: GitRepository
+        name: garage
+        namespace: flux-system
+  values:
+    garage:
+      replicationFactor: 1
+
+    deployment:
+      kind: DaemonSet
+
+    persistence:
+      meta:
+        hostPath: /var/mnt/whatever/garage/meta
+      data:
+        hostPath: /var/mnt/whatever/garage/data
+
+    nodeSelector:
+      kubernetes.io/hostname: alithanar
