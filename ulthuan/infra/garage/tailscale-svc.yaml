@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: garage
+  labels:
+    tailscale.com/proxy-class: "irish-eyes"
+  annotations:
+    tailscale.com/hostname: garage
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  selector:
+    app: garage
+  ports:
+  - name: http
+    port: 3900
+    port: 3900
