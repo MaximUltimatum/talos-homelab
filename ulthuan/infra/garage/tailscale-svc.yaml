@@ -12,6 +12,6 @@ spec:
   selector:
     app: garage
   ports:
-  - name: http
+  - name: s3port
     port: 80
     targetPort: 3900
