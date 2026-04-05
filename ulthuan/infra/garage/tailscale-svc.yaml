@@ -14,4 +14,3 @@ spec:
   ports:
   - name: http
     port: 3900
-    port: 3900
