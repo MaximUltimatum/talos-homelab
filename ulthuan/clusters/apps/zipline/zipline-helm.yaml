@@ -39,7 +39,7 @@ spec:
           main:
             image:
               repository: ghcr.io/diced/zipline
-              tag: 4.5.2
+              tag: 4.5.3
               pullPolicy: IfNotPresent
             envFrom:
               - secretRef:
