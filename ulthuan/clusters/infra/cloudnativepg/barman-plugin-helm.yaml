@@ -13,7 +13,7 @@ spec:
     operation: copy
   ref:
     # Chart version (Chart.yaml: version)
-    tag: 0.5.0
+    tag: 0.6.0
   url: oci://ghcr.io/cloudnative-pg/charts/plugin-barman-cloud
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
