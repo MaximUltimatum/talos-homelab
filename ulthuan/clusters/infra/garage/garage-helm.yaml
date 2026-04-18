@@ -14,7 +14,7 @@ spec:
   interval: 1h
   url: https://git.deuxfleurs.fr/Deuxfleurs/garage
   ref:
-    tag: v2.2.0
+    tag: v2.3.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
