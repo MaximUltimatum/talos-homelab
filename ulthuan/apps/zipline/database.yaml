@@ -10,7 +10,7 @@ spec:
       secret:
         name: zipline-credentials
   storage:
-    size: 10Gi
+    size: 100Gi
   plugins:
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
