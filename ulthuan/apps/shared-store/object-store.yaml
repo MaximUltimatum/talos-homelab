@@ -13,3 +13,4 @@ spec:
       secretAccessKey:
         name: aws-creds
         key: ACCESS_SECRET_KEY
+      region: "garage"
