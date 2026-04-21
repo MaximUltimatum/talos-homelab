@@ -10,7 +10,7 @@ spec:
   type: LoadBalancer
   loadBalancerClass: tailscale
   selector:
-    app: garage
+    app.kubernetes.io/name: garage
   ports:
   - name: s3port
     port: 80

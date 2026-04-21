@@ -31,9 +31,6 @@ spec:
         name: garage
         namespace: flux-system
   values:
-    service:
-      selector:
-        app.kubernetes.io/name: garage
     garage:
       replicationFactor: 1
 
