@@ -48,7 +48,7 @@ spec:
           *app :
             image:
               repository: docker.io/grimmory/grimmory
-              tag: v2.3.0
+              tag: v2.3.1
             env:
               TZ: America/Chicago
               PUID: 1000
