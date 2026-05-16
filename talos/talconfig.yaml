@@ -1,7 +1,7 @@
 ---
 clusterName: ulthuan
 talosVersion: v1.13.2
-kubernetesVersion: v1.34.4
+kubernetesVersion: v1.35.5
 endpoint: https://192.168.4.42:6443
 #domain: ${myDomainName}
 allowSchedulingOnMasters: true
