@@ -89,9 +89,17 @@ spec:
       app:
         controller: syncthing
         primary: true
+        type: LoadBalancer
+        loadBalancerClass: tailscale
+        annotations:
+          tailscale.com/hostname: sync
+          tailscale.com/proxy-class: "irish-eyes"
+        labels:
+          tailscale.com/proxy-class: "irish-eyes"
         ports:
           http:
-            port: 8384
+            port: 80
+            targetPort: 8384
             primary: true
       listen:
         controller: syncthing
@@ -111,7 +119,7 @@ spec:
         type: LoadBalancer
         loadBalancerClass: tailscale
         annotations:
-          tailscale.com/hostname: sync
+          tailscale.com/hostname: syncfiles
           tailscale.com/proxy-class: "irish-eyes"
         labels:
           tailscale.com/proxy-class: "irish-eyes"
