@@ -8,7 +8,6 @@ resources:
 - media-cert.yaml
 - journal-cert.yaml
 - vikunja-cert.yaml
-- zipline-cert.yaml
 - travel-cert.yaml
 - mealie-cert.yml
 - booklore-cert.yaml
