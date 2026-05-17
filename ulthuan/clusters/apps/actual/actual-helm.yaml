@@ -59,9 +59,6 @@ spec:
     ingress:
       main:
         className: nginx
-        annotations:
-          traefik.ingress.kubernetes.io/router.tls: 'true'
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
         hosts:
           - host: *hostname
             paths:
