@@ -73,7 +73,7 @@ spec:
         tls:
           - hosts:
               - *hostname
-            secretName: budget.maximstroud.de-cert
+            secretName: maximstroud.de-cert
 
     persistence:
       data:
