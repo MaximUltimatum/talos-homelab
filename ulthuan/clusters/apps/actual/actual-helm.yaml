@@ -59,6 +59,8 @@ spec:
     ingress:
       main:
         className: nginx
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: actual-actual-headers@kubernetescrd
         hosts:
           - host: *hostname
             paths:
