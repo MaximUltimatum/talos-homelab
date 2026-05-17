@@ -50,7 +50,7 @@ spec:
               ACTUAL_OPENID_SERVER_HOSTNAME: https://budget.maximstroud.de
               ACTUAL_OPENID_DISCOVERY_URL: https://auth.thescience.team/application/o/actual-budget-veymax/.well-known/openid-configuration
               ACTUAL_LOGIN_METHOD: openid
-              ACTUAL_OPENID_ENFORCE: "false"
+              ACTUAL_OPENID_ENFORCE: "true"
             envFrom:
               - secretRef:
                   name: actual-oidc-secret
