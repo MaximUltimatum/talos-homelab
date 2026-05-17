@@ -47,7 +47,13 @@ spec:
               tag: 26.5.2
               pullPolicy: IfNotPresent
             env:
-              ACTUAL_OPENID_SERVER_HOSTNAME: &hostname budget.maximstroud.de
+              ACTUAL_OPENID_SERVER_HOSTNAME: https://budget.maximstroud.de
+              ACTUAL_OPENID_DISCOVERY_URL: https://auth.thescience.team/application/o/actual-budget-veymax/.well-known/openid-configuration
+              ACTUAL_LOGIN_METHOD: openid
+              ACTUAL_OPENID_ENFORCE: "false"
+            envFrom:
+              - secretRef:
+                  name: actual-oidc-secret
 
     service:
       *app:
@@ -60,7 +66,7 @@ spec:
       main:
         className: nginx
         hosts:
-          - host: *hostname
+          - host: &hostname budget.maximstroud.de
             paths:
               - path: /
                 pathType: Prefix
