@@ -42,7 +42,7 @@ spec:
               TZ: America/Chicago
               DATABASE_URL:
                 secretKeyRef:
-                  name: postgresql-app
+                  name: homeassistant-db-creds
                   key: uri
             probes:
               startup:
