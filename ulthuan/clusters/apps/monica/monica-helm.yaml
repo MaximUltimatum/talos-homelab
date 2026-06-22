@@ -62,7 +62,7 @@ spec:
               liveness: &httpProbe
                 enabled: true
                 type: HTTP
-                path: /register
+                path: /
               readiness: *httpProbe
               startup:
                 <<: *httpProbe
