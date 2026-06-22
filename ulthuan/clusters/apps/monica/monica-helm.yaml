@@ -46,7 +46,8 @@ spec:
                     name: monica-secret
                     key: APP_KEY
               APP_ENV: production
-              APP_URL: http://monica
+              APP_URL: https://monica.kingfisher-halfmoon.ts.net
+              APP_FORCE_URL: "true"
               LOG_CHANNEL: stderr
               DB_HOST: 127.0.0.1
               DB_PORT: "3306"
@@ -90,20 +91,28 @@ spec:
     service:
       *app:
         controller: *app
-        type: LoadBalancer
-        loadBalancerClass: tailscale
-        annotations:
-          tailscale.com/hostname: monica
-          tailscale.com/proxy-class: "irish-eyes"
-        labels:
-          tailscale.com/proxy-class: "irish-eyes"
         ports:
           http:
             port: 80
             targetPort: 80
-          https:
-            port: 443
-            targetPort: 80
+
+    ingress:
+      main:
+        enabled: true
+        className: tailscale
+        annotations:
+          tailscale.com/hostname: monica
+        hosts:
+          - host: monica
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: *app
+                  port: 80
+        tls:
+          - hosts:
+              - monica
 
     persistence:
       monica-data:
