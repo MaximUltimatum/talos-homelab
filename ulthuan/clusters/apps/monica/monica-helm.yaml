@@ -1,0 +1,128 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monica
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: monica
+  namespace: monica
+spec:
+  interval: 15m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 5.0.1
+  url: oci://ghcr.io/bjw-s-labs/helm/app-template
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app monica
+  namespace: *app
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  targetNamespace: *app
+  values:
+    controllers:
+      *app:
+        strategy: Recreate
+        containers:
+          app:
+            image:
+              repository: docker.io/library/monica
+              tag: 4.1.2-apache
+              pullPolicy: IfNotPresent
+            env:
+              APP_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: monica-secret
+                    key: APP_KEY
+              APP_ENV: production
+              APP_URL: http://monica
+              LOG_CHANNEL: stderr
+              DB_HOST: 127.0.0.1
+              DB_PORT: "3306"
+              DB_DATABASE: monica
+              DB_USERNAME: monica
+              DB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: monica-secret
+                    key: MARIADB_PASSWORD
+            probes:
+              liveness: &httpProbe
+                enabled: true
+                type: HTTP
+                path: /
+              readiness: *httpProbe
+              startup:
+                <<: *httpProbe
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+          mariadb:
+            image:
+              repository: docker.io/library/mariadb
+              tag: "11.8"
+              pullPolicy: IfNotPresent
+            env:
+              MARIADB_DATABASE: monica
+              MARIADB_USER: monica
+              MARIADB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: monica-secret
+                    key: MARIADB_PASSWORD
+              MARIADB_ROOT_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: monica-secret
+                    key: MARIADB_ROOT_PASSWORD
+
+    service:
+      *app:
+        controller: *app
+        type: LoadBalancer
+        loadBalancerClass: tailscale
+        annotations:
+          tailscale.com/hostname: monica
+          tailscale.com/proxy-class: "irish-eyes"
+        labels:
+          tailscale.com/proxy-class: "irish-eyes"
+        ports:
+          http:
+            port: 80
+            targetPort: 80
+          https:
+            port: 443
+            targetPort: 80
+
+    persistence:
+      monica-data:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: longhorn
+        retain: true
+        advancedMounts:
+          *app:
+            app:
+              - path: /var/www/html/storage
+      mariadb-data:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: longhorn
+        retain: true
+        advancedMounts:
+          *app:
+            mariadb:
+              - path: /var/lib/mysql
