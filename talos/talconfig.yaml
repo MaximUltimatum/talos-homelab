@@ -32,7 +32,6 @@ nodes:
   - hostname: tyrion
     ipAddress: 192.168.4.71
     installDisk: /dev/nvme0n1
-    controlPlane: true
     networkInterfaces:
       - interface: enp0s20f0u5
         dhcp: true
