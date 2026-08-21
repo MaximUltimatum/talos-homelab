@@ -1,0 +1,61 @@
+# Backs up longhorn to a directory that is not replicated
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anti-nfs-server
+  labels:
+    app: anti-nfs-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: anti-nfs-server
+  template:
+    metadata:
+      name: anti-nfs-server
+      labels:
+        app: anti-nfs-server
+    spec:
+      volumes:
+        - name: nfs-storage
+          hostPath:
+            path: /var/mnt/donut/nobackup
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - alithanar
+      containers:
+        - name: anti-nfs-server
+          image: erichough/nfs-server:2.2.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 2049
+              name: nfs
+          securityContext:
+            privileged: true
+          env:
+            - name: NFS_EXPORT_0
+              value: "/exports *(rw,fsid=0,async,no_subtree_check,no_auth_nlm,insecure,no_root_squash)"
+          volumeMounts:
+            - name: nfs-storage
+              mountPath: /exports
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: anti-nfs-server-service
+  labels:
+    app: anti-nfs-server
+spec:
+  type: ClusterIP
+  selector:
+    app: anti-nfs-server
+  ports:
+    - name: nfs
+      port: 2049
