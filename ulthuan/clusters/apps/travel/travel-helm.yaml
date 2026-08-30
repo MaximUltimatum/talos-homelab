@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: ghcr.io/seanmorley15/adventurelog
-              tag: &version v0.12.1
+              tag: &version v0.13.0
             env:
               SITE_URL: "https://travel.maximstroud.de"
               DISABLE_REGISTRATION: "True"
