@@ -1,0 +1,69 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: matter-server
+  namespace: smarthome
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: smarthome
+    namespace: smarthome
+  interval: 1h
+  targetNamespace: smarthome
+  values:
+    controllers:
+      matter-server:
+        pod:
+          hostNetwork: true
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+            runAsNonRoot: true
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - aislinn
+        containers:
+          matter-server:
+            image:
+              repository: ghcr.io/matter-js/matterjs-server
+              tag: 1.4.0
+            args:
+              - --storage-path=/data
+              - --enable-test-net-dcl
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 5580
+              readiness: *probe
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 512Mi
+    persistence:
+      data:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        retain: true
+      tmp:
+        type: emptyDir
+    service:
+      app:
+        ports:
+          http:
+            port: 5580
