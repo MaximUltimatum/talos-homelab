@@ -16,6 +16,16 @@ spec:
     controllers:
       matter-server:
         pod:
+          hostNetwork: true
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - aislinn
           securityContext:
             runAsNonRoot: false
             runAsUser: 0
@@ -34,6 +44,7 @@ spec:
               MATTER_SERVER__LOG_LEVEL: info
             args:
               - --storage-path=/data
+              - --primary-interface=enp4s0
               - --log-level=info
               - --log-level-sdk=info
             resources:
