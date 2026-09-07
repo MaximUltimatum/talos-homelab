@@ -26,36 +26,28 @@ spec:
                         operator: In
                         values:
                           - aislinn
-          securityContext:
-            runAsNonRoot: false
-            runAsUser: 0
-            runAsGroup: 0
-            fsGroup: 0
-            fsGroupChangePolicy: OnRootMismatch
         containers:
-          app:
+          matter-server:
             image:
-              repository: ghcr.io/home-assistant-libs/python-matter-server
-              tag: 8.1.0
-            env:
-              TZ: America/Chicago
-              MATTER_SERVER__INSTANCE_NAME: matter-server
-              MATTER_SERVER__PORT: &port 5580
-              MATTER_SERVER__LOG_LEVEL: info
+              repository: ghcr.io/matter-js/matterjs-server
+              tag: 1.4.0
             args:
               - --storage-path=/data
-              - --primary-interface=enp4s0
               - --enable-test-net-dcl
-              - --log-level=info
-              - --log-level-sdk=info
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 5580
+              readiness: *probe
             resources:
               requests:
                 cpu: 10m
               limits:
-                memory: 1Gi
-            securityContext:
-              allowPrivilegeEscalation: true
-              privileged: true
+                memory: 512Mi
     persistence:
       data:
         type: persistentVolumeClaim
@@ -68,4 +60,4 @@ spec:
       app:
         ports:
           http:
-            port: *port
+            port: 5580
