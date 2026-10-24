@@ -1,0 +1,19 @@
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: disk.transport == 'sata'
+  grow: true
+  minSize: 100GB
+  maxSize: 100GB
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: longhorn-data
+provisioning:
+  diskSelector:
+    match: disk.transport == 'sata'
+  grow: true
+  maxSize: 1.8TB

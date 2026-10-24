@@ -3,6 +3,14 @@ keys:
   - &fallback "age1ua9hwkg2ucu4ds2279zzfz7jwcdkat3tnsag2rerymrcr8pp5gpsyhgrx3"
 
 creation_rules:
+  # topf.yaml keeps node/cluster definitions readable; only the `data` block
+  # (which holds secrets like the tailscale authkey) is encrypted.
+  - path_regex: topf\.yaml$
+    encrypted_regex: ^(data|stringData)$
+    key_groups:
+      - age:
+          - *yubikey
+          - *fallback
   - path_regex: ".*\\.yaml$"
     key_groups:
       - age:

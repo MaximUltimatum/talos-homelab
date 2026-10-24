@@ -1,0 +1,27 @@
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: disk.transport == 'nvme' && disk.pretty_size == '1.0 TB'
+  grow: true
+  maxSize: 100GB
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: longhorn-nvme1
+provisioning:
+  diskSelector:
+    match: disk.transport == 'nvme' && disk.pretty_size == '1.0 TB'
+  grow: true
+  maxSize: 900GB
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: longhorn-nvme2
+provisioning:
+  diskSelector:
+    match: disk.transport == 'nvme' && disk.pretty_size == '2.0 TB'
+  grow: true
+  maxSize: 2.0TB

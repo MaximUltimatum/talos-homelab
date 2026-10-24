@@ -1,0 +1,44 @@
+clusterName: ulthuan
+clusterEndpoint: https://192.168.4.42:6443
+kubernetesVersion: v1.35.5
+talosVersion: v1.13.2
+schematicId: '@schematic.yaml.tpl'
+nodes:
+    - host: teclis
+      ip: 192.168.4.74
+      role: control-plane
+    - host: eltharion
+      ip: 192.168.4.72
+      role: control-plane
+    - host: alarielle
+      ip: 192.168.4.69
+      role: control-plane
+    - host: tyrion
+      ip: 192.168.4.71
+      role: worker
+    - host: imrik
+      ip: 192.168.4.70
+      role: worker
+    - host: aislinn
+      ip: 192.168.4.73
+      role: worker
+    - host: alithanar
+      ip: 192.168.4.77
+      role: worker
+data:
+    tsAuthkey: ENC[AES256_GCM,data:9YdGJwBNHW+s3RdimAc8rRPNnBUyW/XraliHaBErc7AXcEMo6tNvyAFWsnTlJd1cQjzeuM4AyuKbwKjSuQ==,iv:hVjr6GG8+LyU3rPDdVcwjeIhuM+onWNJu4aEfjFcQH8=,tag:wqNwU0Bla83vc3/q6Q7JKA==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBZVGFrTm0rdkdadXdWRUFp
+            Mkw0KzdKdDBvWUhRd1lacGtoQWhkUG8rUWxzClNmK09xMklPbE1YMnNWd3RpVjVz
+            SFVpdHhFWDNibXlVVUk5bUhlOXg4ZTAKLS0tIE01eVRDV2cxczhuNS9RN0JKSURv
+            eGhqcS9IcTB2Vll3OHJ4NkVVbXJUcmsK7jKKkuR9qxGNdWsR+LLANzoiMglf9JeS
+            ym9XzAwN765cg6wg3EQ5+dwyvc1zfF2zWQ4/DEhAHHXtExzdQQ5/2w==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1ua9hwkg2ucu4ds2279zzfz7jwcdkat3tnsag2rerymrcr8pp5gpsyhgrx3
+    encrypted_regex: ^(data|stringData)$
+    lastmodified: "2026-10-23T21:56:53Z"
+    mac: ENC[AES256_GCM,data:NXUD572UZEk7EgqzkFMzPE6cWboS5oHg/CncWL2ktmeyslqYfm55JNtbW5Sh5le0ixTAmgty6F2ZPGCkD7VEqDxypfzJdDGzs949EclcCoOLQotrmIX2WyZhlkxU9zdRd1iLV5gVvC7LX5KsF7JpFz9TV8Axy7s2N/L4GCAshhM=,iv:HKqBo2dbZF9Awuvf526ns+2LZOpAVMmgqzf8SySGDTk=,tag:wSmNF2Medtv+z/JiGwAKdA==,type:str]
+    version: 3.13.3
