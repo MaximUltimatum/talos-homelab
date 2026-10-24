@@ -1,7 +1,7 @@
 clusterName: ulthuan
 clusterEndpoint: https://192.168.4.42:6443
 kubernetesVersion: v1.35.5
-talosVersion: v1.13.2
+talosVersion: v1.13.12
 schematicId: '@schematic.yaml.tpl'
 nodes:
     - host: teclis
@@ -39,6 +39,6 @@ sops:
             -----END AGE ENCRYPTED FILE-----
           recipient: age1ua9hwkg2ucu4ds2279zzfz7jwcdkat3tnsag2rerymrcr8pp5gpsyhgrx3
     encrypted_regex: ^(data|stringData)$
-    lastmodified: "2026-10-23T21:56:53Z"
-    mac: ENC[AES256_GCM,data:NXUD572UZEk7EgqzkFMzPE6cWboS5oHg/CncWL2ktmeyslqYfm55JNtbW5Sh5le0ixTAmgty6F2ZPGCkD7VEqDxypfzJdDGzs949EclcCoOLQotrmIX2WyZhlkxU9zdRd1iLV5gVvC7LX5KsF7JpFz9TV8Axy7s2N/L4GCAshhM=,iv:HKqBo2dbZF9Awuvf526ns+2LZOpAVMmgqzf8SySGDTk=,tag:wSmNF2Medtv+z/JiGwAKdA==,type:str]
+    lastmodified: "2026-10-24T22:05:55Z"
+    mac: ENC[AES256_GCM,data:eHLKbSm+nysrEWfy0kwhNXzpLETWsEvQjLAuzHYT+bl0cusTMTB5OXMfSWEFpOdw3y1sK3++Jar9XhFJ0mwY06jke4he6i6q3WpEP8+A8mQ5sKNIt6W60AWFxoYnBfqI6azp4sbUXND3H0gPI8lNCt2Ro8XOqNNLxOO0I3scqLU=,iv:FKr3A/8ssq9Ut8x28njkTBptaxeB4byna/GuiOrETSs=,tag:veDe/2/uK8K30FhnFSeHpg==,type:str]
     version: 3.13.3
