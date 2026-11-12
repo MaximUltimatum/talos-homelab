@@ -35,5 +35,3 @@ spec:
       create: true
     speaker:
       enabled: true
-      frr:
-        enabled: true
