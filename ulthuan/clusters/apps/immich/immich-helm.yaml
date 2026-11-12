@@ -78,3 +78,5 @@ spec:
       persistence:
         cache:
           type: persistentVolumeClaim
+          accessMode: ReadWriteMany
+          size: 10Gi
